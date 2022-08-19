@@ -27,8 +27,8 @@ resource "azurerm_policy_definition" "name" {
   mode = lookup(each.value, "policy_type", "All")
   display_name = each.value["display_name"]
   metadata = each.value["metadata"]
-  parameters = file("policies/${each.key}/parameters.json")
-  policy_rule = file("policies/${each.key}/policy_rule.json")
+  parameters = file("${var.policy_config_path}${each.key}/parameters.json")
+  policy_rule = file("${var.policy_config_path}${each.key}/policy_rule.json")
 }
 
 resource "azurerm_subscription_policy_assignment" "name" {

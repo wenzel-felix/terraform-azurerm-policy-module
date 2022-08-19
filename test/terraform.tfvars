@@ -1,3 +1,4 @@
+policy_config_path = "policies/"
 policies = {
   "accTestPolicy" : {
     mode         = "Indexed"
