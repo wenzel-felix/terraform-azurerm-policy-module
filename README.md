@@ -23,7 +23,7 @@ provider "azurerm" {
 }
 
 module "policy" {
-  source  = "felix-wenzel/policy/azurerm"
+  source  = "felix-wenzel/policy-module/azurerm"
   version = "0.1"
   policy_config_path = "policies/"  # policy_config_path is set to "policies/" by default
   policies = var.policies
