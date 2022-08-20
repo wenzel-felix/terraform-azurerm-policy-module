@@ -49,5 +49,14 @@ policies = {
     METADATA
       }
     ]
+  },
+  "accTestPolicy2" : {
+    mode         = "All"
+    display_name = "acceptance test policy definition2"
+    metadata     = <<METADATA
+        {
+            "category": "General"
+        }
+    METADATA
   }
 }
