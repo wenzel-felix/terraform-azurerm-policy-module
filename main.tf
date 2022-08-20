@@ -1,16 +1,20 @@
 locals {
   assignments_list = toset(flatten([
-    for k, v in var.policies : [
+    for k, v in var.policies : 
+    lookup(v, "assignments", false) != false ?
+    [
       for assignment in v.assignments : {
         scope        = assignment.scope
         unique_scope = element(split("/", assignment.scope), length(split("/", assignment.scope)) - 1)
         type         = assignment.type
         policy       = k
       }
-    ]
+    ] : []
   ]))
   exemptions_list = toset(flatten([
-    for k, v in var.policies : [
+    for k, v in var.policies : 
+    lookup(v, "assignments", false) != false ?
+    [
       for assignment in v.assignments :
       lookup(assignment, "exemptions", false) != false ?
       [
@@ -24,7 +28,7 @@ locals {
           exemption_category      = exemption.exemption_category
         }
       ] : []
-    ]
+    ] : []
     ]
   ))
 }
