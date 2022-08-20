@@ -1,6 +1,6 @@
 policy_config_path = "policies/"
 policies = {
-  "accTestPolicy" : {
+  "accTestPolicy" = {
     mode         = "Indexed"
     display_name = "acceptance test policy definition"
     metadata     = <<METADATA
