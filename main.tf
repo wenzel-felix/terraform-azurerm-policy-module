@@ -29,15 +29,6 @@ locals {
   ))
 }
 
-resource "null_resource" "name" {
-  for_each = {
-    for unique in local.assignments_list : "${unique.type}-${unique.scope}-${unique.policy}" => unique
-  }
-  provisioner "local-exec" {
-    command = "echo ${each.key}"
-  }
-}
-
 resource "azurerm_policy_definition" "name" {
   for_each     = var.policies
   name         = each.key
