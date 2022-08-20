@@ -41,6 +41,9 @@ If you want to run the test, you have to first add your subscription id in the "
 └───variables.tf
 └───policies
     └───accTestPolicy
+    |   └───parameters.json
+    |   └───policy_rule.json
+    └───accTestPolicy2
         └───parameters.json
         └───policy_rule.json
 ```
