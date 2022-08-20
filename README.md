@@ -30,6 +30,9 @@ module "policy" {
 }
 ```
 
+>__Important__ :
+If you want to run the test, you have to first add your subscription id in the "test/terraform.tfvars" file for every placeholder ("XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX")
+
 ## Default folder structure
 
 ```bash
