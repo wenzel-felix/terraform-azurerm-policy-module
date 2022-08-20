@@ -89,12 +89,72 @@ resource "azurerm_resource_policy_assignment" "name" {
 
 ############ Policy Exemptions ############
 
-resource "azurerm_resource_policy_exemption" "example" {
+resource "azurerm_resource_policy_exemption" "RG_assignment" {
   for_each = {
     for unique in local.exemptions_list : "${unique.exemption_category}-${unique.type}-${unique.policy}-${unique.unique_scope}" => unique if unique.type == "RES" && unique.assignment_type == "RG"
   }
   name                 = each.key
   resource_id          = each.value.scope
   policy_assignment_id = azurerm_resource_group_policy_assignment.name["${each.value.assignment_type}-${each.value.policy}-${each.value.assignment_unique_scope}"].id
+  exemption_category   = each.value.exemption_category
+}
+
+resource "azurerm_resource_policy_exemption" "SUB_assignment" {
+  for_each = {
+    for unique in local.exemptions_list : "${unique.exemption_category}-${unique.type}-${unique.policy}-${unique.unique_scope}" => unique if unique.type == "RES" && unique.assignment_type == "SUB"
+  }
+  name                 = each.key
+  resource_id          = each.value.scope
+  policy_assignment_id = azurerm_subscription_policy_assignment.name["${each.value.assignment_type}-${each.value.policy}-${each.value.assignment_unique_scope}"].id
+  exemption_category   = each.value.exemption_category
+}
+
+resource "azurerm_resource_policy_exemption" "MG_assignment" {
+  for_each = {
+    for unique in local.exemptions_list : "${unique.exemption_category}-${unique.type}-${unique.policy}-${unique.unique_scope}" => unique if unique.type == "RES" && unique.assignment_type == "MG"
+  }
+  name                 = each.key
+  resource_id          = each.value.scope
+  policy_assignment_id = azurerm_management_group_policy_assignment.name["${each.value.assignment_type}-${each.value.policy}-${each.value.assignment_unique_scope}"].id
+  exemption_category   = each.value.exemption_category
+}
+
+resource "azurerm_resource_group_policy_exemption" "SUB_assignment" {
+  for_each = {
+    for unique in local.exemptions_list : "${unique.exemption_category}-${unique.type}-${unique.policy}-${unique.unique_scope}" => unique if unique.type == "RG" && unique.assignment_type == "SUB"
+  }
+  name                 = each.key
+  resource_id          = each.value.scope
+  policy_assignment_id = azurerm_subscription_policy_assignment.name["${each.value.assignment_type}-${each.value.policy}-${each.value.assignment_unique_scope}"].id
+  exemption_category   = each.value.exemption_category
+}
+
+resource "azurerm_resource_group_policy_exemption" "MG_assignment" {
+  for_each = {
+    for unique in local.exemptions_list : "${unique.exemption_category}-${unique.type}-${unique.policy}-${unique.unique_scope}" => unique if unique.type == "RG" && unique.assignment_type == "MG"
+  }
+  name                 = each.key
+  resource_id          = each.value.scope
+  policy_assignment_id = azurerm_management_group_policy_assignment.name["${each.value.assignment_type}-${each.value.policy}-${each.value.assignment_unique_scope}"].id
+  exemption_category   = each.value.exemption_category
+}
+
+resource "azurerm_subscription_policy_exemption" "MG_assignment" {
+  for_each = {
+    for unique in local.exemptions_list : "${unique.exemption_category}-${unique.type}-${unique.policy}-${unique.unique_scope}" => unique if unique.type == "SUB" && unique.assignment_type == "MG"
+  }
+  name                 = each.key
+  resource_id          = each.value.scope
+  policy_assignment_id = azurerm_management_group_policy_assignment.name["${each.value.assignment_type}-${each.value.policy}-${each.value.assignment_unique_scope}"].id
+  exemption_category   = each.value.exemption_category
+}
+
+resource "azurerm_management_group_policy_exemption" "MG_assignment" {
+  for_each = {
+    for unique in local.exemptions_list : "${unique.exemption_category}-${unique.type}-${unique.policy}-${unique.unique_scope}" => unique if unique.type == "MG" && unique.assignment_type == "MG"
+  }
+  name                 = each.key
+  resource_id          = each.value.scope
+  policy_assignment_id = azurerm_management_group_policy_assignment.name["${each.value.assignment_type}-${each.value.policy}-${each.value.assignment_unique_scope}"].id
   exemption_category   = each.value.exemption_category
 }
