@@ -1,6 +1,6 @@
 policy_config_path = "policies/"
 policies = {
-  "accTestPolicy" = {
+  "accTestPolicy" : {
     mode         = "Indexed"
     display_name = "acceptance test policy definition"
     metadata     = <<METADATA
@@ -10,7 +10,7 @@ policies = {
     METADATA
     assignments = [
       {
-        type     = "RG" ### MG/SUB/RG/RES
+        type     = "RG" 
         scope    = "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example2"
         metadata = <<METADATA
         {
@@ -19,7 +19,7 @@ policies = {
     METADATA
         exemptions = [
           {
-            type               = "RES" ### MG/SUB/RG/RES
+            type               = "RES" 
             scope              = "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example2/providers/Microsoft.Storage/storageAccounts/geantnamelllawdadad2"
             exemption_category = "Waiver"
             metadata           = <<METADATA
@@ -31,7 +31,7 @@ policies = {
         ]
       },
       {
-        type     = "RG" ### MG/SUB/RG/RES
+        type     = "RG" 
         scope    = "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example1"
         metadata = <<METADATA
         {
@@ -40,7 +40,7 @@ policies = {
     METADATA
       },
       {
-        type     = "RES" ### MG/SUB/RG/RES
+        type     = "RES" 
         scope    = "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example1/providers/Microsoft.Storage/storageAccounts/geantnamelllawdadad1"
         metadata = <<METADATA
         {

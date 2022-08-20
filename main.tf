@@ -11,22 +11,22 @@ locals {
   ]))
   exemptions_list = toset(flatten([
     for k, v in var.policies : [
-      for assignment in v.assignments : 
-        lookup(assignment, "exemptions", false) != false ?
-            [
-                for exemption in assignment.exemptions : {
-                assignment_type    = assignment.type
-                assignment_unique_scope = element(split("/", assignment.scope), length(split("/", assignment.scope)) - 1)
-                scope              = exemption.scope
-                unique_scope       = element(split("/", exemption.scope), length(split("/", exemption.scope)) - 1)
-                type               = exemption.type
-                policy             = k
-                exemption_category = exemption.exemption_category
-                }
-            ] : []
-      ]
+      for assignment in v.assignments :
+      lookup(assignment, "exemptions", false) != false ?
+      [
+        for exemption in assignment.exemptions : {
+          assignment_type         = assignment.type
+          assignment_unique_scope = element(split("/", assignment.scope), length(split("/", assignment.scope)) - 1)
+          scope                   = exemption.scope
+          unique_scope            = element(split("/", exemption.scope), length(split("/", exemption.scope)) - 1)
+          type                    = exemption.type
+          policy                  = k
+          exemption_category      = exemption.exemption_category
+        }
+      ] : []
     ]
-))
+    ]
+  ))
 }
 
 resource "null_resource" "name" {
@@ -124,7 +124,7 @@ resource "azurerm_resource_group_policy_exemption" "SUB_assignment" {
     for unique in local.exemptions_list : "${unique.exemption_category}-${unique.type}-${unique.policy}-${unique.unique_scope}" => unique if unique.type == "RG" && unique.assignment_type == "SUB"
   }
   name                 = each.key
-  resource_id          = each.value.scope
+  resource_group_id    = each.value.scope
   policy_assignment_id = azurerm_subscription_policy_assignment.name["${each.value.assignment_type}-${each.value.policy}-${each.value.assignment_unique_scope}"].id
   exemption_category   = each.value.exemption_category
 }
@@ -134,7 +134,7 @@ resource "azurerm_resource_group_policy_exemption" "MG_assignment" {
     for unique in local.exemptions_list : "${unique.exemption_category}-${unique.type}-${unique.policy}-${unique.unique_scope}" => unique if unique.type == "RG" && unique.assignment_type == "MG"
   }
   name                 = each.key
-  resource_id          = each.value.scope
+  resource_group_id    = each.value.scope
   policy_assignment_id = azurerm_management_group_policy_assignment.name["${each.value.assignment_type}-${each.value.policy}-${each.value.assignment_unique_scope}"].id
   exemption_category   = each.value.exemption_category
 }
@@ -144,7 +144,7 @@ resource "azurerm_subscription_policy_exemption" "MG_assignment" {
     for unique in local.exemptions_list : "${unique.exemption_category}-${unique.type}-${unique.policy}-${unique.unique_scope}" => unique if unique.type == "SUB" && unique.assignment_type == "MG"
   }
   name                 = each.key
-  resource_id          = each.value.scope
+  subscription_id      = each.value.scope
   policy_assignment_id = azurerm_management_group_policy_assignment.name["${each.value.assignment_type}-${each.value.policy}-${each.value.assignment_unique_scope}"].id
   exemption_category   = each.value.exemption_category
 }
@@ -154,7 +154,7 @@ resource "azurerm_management_group_policy_exemption" "MG_assignment" {
     for unique in local.exemptions_list : "${unique.exemption_category}-${unique.type}-${unique.policy}-${unique.unique_scope}" => unique if unique.type == "MG" && unique.assignment_type == "MG"
   }
   name                 = each.key
-  resource_id          = each.value.scope
+  management_group_id  = each.value.scope
   policy_assignment_id = azurerm_management_group_policy_assignment.name["${each.value.assignment_type}-${each.value.policy}-${each.value.assignment_unique_scope}"].id
   exemption_category   = each.value.exemption_category
 }

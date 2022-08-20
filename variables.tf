@@ -3,5 +3,5 @@ variable "policies" {
 }
 variable "policy_config_path" {
   description = "The path to the policy folders. (eg. './policies/')"
-  default = "policies/"
+  default     = "policies/"
 }
