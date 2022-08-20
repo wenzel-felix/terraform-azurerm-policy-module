@@ -1,4 +1,4 @@
-# Azure Policy Terraform Module
+# Azure Terraform Policy Module
 
 Terraform Module to create Policy with optional Assignments and Exemptions creation.
 
