@@ -9,8 +9,8 @@ module "policy" {
     azurerm_storage_account.example1,
     azurerm_storage_account.example2
   ]
-  source   = "../"
-  policies = var.policies
+  source             = "../"
+  policies           = var.policies
   policy_config_path = var.policy_config_path
 }
 
