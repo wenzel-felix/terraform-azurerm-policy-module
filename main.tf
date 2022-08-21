@@ -153,3 +153,20 @@ resource "azurerm_management_group_policy_exemption" "MG_assignment" {
   policy_assignment_id = azurerm_management_group_policy_assignment.name["${each.value.assignment_type}-${each.value.policy}-${each.value.assignment_unique_scope}"].id
   exemption_category   = each.value.exemption_category
 }
+
+############ Policy Set Definitions ############
+
+resource "azurerm_policy_set_definition" "example" {
+  for_each = var.policy_sets
+  name         = each.key
+  policy_type  = "Custom"
+  display_name = each.value.display_name
+
+  dynamic "policy_definitions_reference" {
+    for_each = each.value.policy_definitions_references
+    policy_definition_reference {
+      policy_definition_id = azurerm_policy_definition.name[each.value].id
+    }
+  }
+}
+
