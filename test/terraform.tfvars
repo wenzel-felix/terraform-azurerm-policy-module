@@ -10,7 +10,7 @@ policies = {
     METADATA
     assignments = [
       {
-        type     = "RG" 
+        type     = "RG"
         scope    = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2"
         metadata = <<METADATA
         {
@@ -19,7 +19,7 @@ policies = {
     METADATA
         exemptions = [
           {
-            type               = "RES" 
+            type               = "RES"
             scope              = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2/providers/Microsoft.Storage/storageAccounts/geantnamelllawdadad2"
             exemption_category = "Waiver"
             metadata           = <<METADATA
@@ -31,7 +31,7 @@ policies = {
         ]
       },
       {
-        type     = "RG" 
+        type     = "RG"
         scope    = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example1"
         metadata = <<METADATA
         {
@@ -40,7 +40,7 @@ policies = {
     METADATA
       },
       {
-        type     = "RES" 
+        type     = "RES"
         scope    = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example1/providers/Microsoft.Storage/storageAccounts/geantnamelllawdadad1"
         metadata = <<METADATA
         {
@@ -80,6 +80,29 @@ policy_sets = {
     policy_definitions_references = [
       "accTestPolicy2",
       "accTestPolicy3"
+    ]
+    assignments = [
+      {
+        type     = "RG"
+        scope    = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2"
+        metadata = <<METADATA
+        {
+            "category": "General"
+        }
+    METADATA
+        exemptions = [
+          {
+            type               = "RES"
+            scope              = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2/providers/Microsoft.Storage/storageAccounts/geantnamelllawdadad2"
+            exemption_category = "Waiver"
+            metadata           = <<METADATA
+        {
+            "category": "General"
+        }
+    METADATA
+          }
+        ]
+      }
     ]
   }
 }

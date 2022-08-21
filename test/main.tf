@@ -12,6 +12,7 @@ module "policy" {
   source             = "../"
   policies           = var.policies
   policy_config_path = var.policy_config_path
+  policy_sets        = var.policy_sets
 }
 
 resource "azurerm_resource_group" "example1" {
