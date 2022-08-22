@@ -1,3 +1,3 @@
 output "policy_definitions" {
-  value = azurerm_policy_definition.name
+  value = data.azurerm_policy_definition.name
 }

@@ -1,4 +1,4 @@
-variable "policies" {
+variable "custom_policies" {
   description = "The configuration for the policies to be installed."
 }
 variable "policy_config_path" {
@@ -6,4 +6,7 @@ variable "policy_config_path" {
 }
 variable "policy_sets" {
   description = "The policy sets to be installed."
+}
+variable "builtIn_policies" {
+  description = "The configuration for the policies to be installed."
 }

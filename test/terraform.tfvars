@@ -1,5 +1,5 @@
 policy_config_path = "policies/"
-policies = {
+custom_policies = {
   "accTestPolicy" : {
     mode         = "Indexed"
     display_name = "acceptance test policy definition"
@@ -136,8 +136,8 @@ builtIn_policies = {
   "Configure disk access resources to use private DNS zones" : {
     assignments = [
       {
-        type     = "RES"
-        scope    = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example1/providers/Microsoft.Compute/virtualMachines/example1vm"
+        type     = "RG"
+        scope    = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example1"
         metadata = <<METADATA
         {
             "category": "General"
