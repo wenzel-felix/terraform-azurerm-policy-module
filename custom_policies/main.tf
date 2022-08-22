@@ -1,6 +1,6 @@
 locals {
   assignments_list = toset(flatten([
-    for k, v in var.policy_sets :
+    for k, v in var.custom_policies :
     lookup(v, "assignments", false) != false ?
     [
       for assignment in v.assignments : {
@@ -12,7 +12,7 @@ locals {
     ] : []
   ]))
   exemptions_list = toset(flatten([
-    for k, v in var.policy_sets :
+    for k, v in var.custom_policies :
     lookup(v, "assignments", false) != false ?
     [
       for assignment in v.assignments :
@@ -33,18 +33,15 @@ locals {
   ))
 }
 
-resource "azurerm_policy_set_definition" "name" {
-  for_each     = var.policy_sets
+resource "azurerm_policy_definition" "name" {
+  for_each     = var.custom_policies
   name         = each.key
   policy_type  = "Custom"
-  display_name = each.value.display_name
-
-  dynamic "policy_definition_reference" {
-    for_each = each.value.policy_definitions_references
-    content {
-      policy_definition_id = var.policy_definitions[policy_definition_reference.value].id
-    }
-  }
+  mode         = lookup(each.value, "policy_type", "All")
+  display_name = each.value["display_name"]
+  metadata     = each.value["metadata"]
+  parameters   = file("${var.policy_config_path}${each.key}/parameters.json")
+  policy_rule  = file("${var.policy_config_path}${each.key}/policy_rule.json")
 }
 
 ############ Policy Assignments ############
@@ -54,7 +51,7 @@ resource "azurerm_management_group_policy_assignment" "name" {
     for unique in local.assignments_list : "${unique.type}-${unique.policy}-${unique.unique_scope}" => unique if unique.type == "MG"
   }
   name                 = each.key
-  policy_definition_id = azurerm_policy_set_definition.name[each.value.policy].id
+  policy_definition_id = azurerm_policy_definition.name[each.value.policy].id
   management_group_id  = each.value.scope
 }
 
@@ -63,7 +60,7 @@ resource "azurerm_subscription_policy_assignment" "name" {
     for unique in local.assignments_list : "${unique.type}-${unique.policy}-${unique.unique_scope}" => unique if unique.type == "SUB"
   }
   name                 = each.key
-  policy_definition_id = azurerm_policy_set_definition.name[each.value.policy].id
+  policy_definition_id = azurerm_policy_definition.name[each.value.policy].id
   subscription_id      = each.value.scope
 }
 
@@ -72,7 +69,7 @@ resource "azurerm_resource_group_policy_assignment" "name" {
     for unique in local.assignments_list : "${unique.type}-${unique.policy}-${unique.unique_scope}" => unique if unique.type == "RG"
   }
   name                 = each.key
-  policy_definition_id = azurerm_policy_set_definition.name[each.value.policy].id
+  policy_definition_id = azurerm_policy_definition.name[each.value.policy].id
   resource_group_id    = each.value.scope
 }
 
@@ -81,7 +78,7 @@ resource "azurerm_resource_policy_assignment" "name" {
     for unique in local.assignments_list : "${unique.type}-${unique.policy}-${unique.unique_scope}" => unique if unique.type == "RES"
   }
   name                 = each.key
-  policy_definition_id = azurerm_policy_set_definition.name[each.value.policy].id
+  policy_definition_id = azurerm_policy_definition.name[each.value.policy].id
   resource_id          = each.value.scope
 }
 

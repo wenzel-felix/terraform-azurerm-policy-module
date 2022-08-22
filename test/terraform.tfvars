@@ -79,7 +79,8 @@ policy_sets = {
     METADATA
     policy_definitions_references = [
       "accTestPolicy2",
-      "accTestPolicy3"
+      "accTestPolicy3",
+      "Audit VMs that do not use managed disks"
     ]
     assignments = [
       {
@@ -102,6 +103,46 @@ policy_sets = {
     METADATA
           }
         ]
+      }
+    ]
+  }
+}
+builtIn_policies = {
+  "Audit VMs that do not use managed disks" : {
+    assignments = [
+      {
+        type     = "RG"
+        scope    = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2"
+        metadata = <<METADATA
+        {
+            "category": "General"
+        }
+    METADATA
+        exemptions = [
+          {
+            type               = "RES"
+            scope              = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2/providers/Microsoft.Storage/storageAccounts/geantnamelllawdadad2"
+            exemption_category = "Waiver"
+            metadata           = <<METADATA
+        {
+            "category": "General"
+        }
+    METADATA
+          }
+        ]
+      }
+    ]
+  },
+  "Configure disk access resources to use private DNS zones" : {
+    assignments = [
+      {
+        type     = "RES"
+        scope    = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example1/providers/Microsoft.Compute/virtualMachines/example1vm"
+        metadata = <<METADATA
+        {
+            "category": "General"
+        }
+    METADATA
       }
     ]
   }

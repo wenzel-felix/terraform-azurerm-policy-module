@@ -1,6 +1,6 @@
 locals {
   assignments_list = toset(flatten([
-    for k, v in var.policies : 
+    for k, v in var.policies :
     lookup(v, "assignments", false) != false ?
     [
       for assignment in v.assignments : {
@@ -12,7 +12,7 @@ locals {
     ] : []
   ]))
   exemptions_list = toset(flatten([
-    for k, v in var.policies : 
+    for k, v in var.policies :
     lookup(v, "assignments", false) != false ?
     [
       for assignment in v.assignments :
@@ -33,15 +33,9 @@ locals {
   ))
 }
 
-resource "azurerm_policy_definition" "name" {
-  for_each     = var.policies
-  name         = each.key
-  policy_type  = "Custom"
-  mode         = lookup(each.value, "policy_type", "All")
-  display_name = each.value["display_name"]
-  metadata     = each.value["metadata"]
-  parameters   = file("${var.policy_config_path}${each.key}/parameters.json")
-  policy_rule  = file("${var.policy_config_path}${each.key}/policy_rule.json")
+data "azurerm_policy_definition" "name" {
+  for_each     = var.builtIn_policies
+  display_name = each.key
 }
 
 ############ Policy Assignments ############
@@ -51,7 +45,7 @@ resource "azurerm_management_group_policy_assignment" "name" {
     for unique in local.assignments_list : "${unique.type}-${unique.policy}-${unique.unique_scope}" => unique if unique.type == "MG"
   }
   name                 = each.key
-  policy_definition_id = azurerm_policy_definition.name[each.value.policy].id
+  policy_definition_id = data.azurerm_policy_definition.name[each.value.policy].id
   management_group_id  = each.value.scope
 }
 
@@ -60,7 +54,7 @@ resource "azurerm_subscription_policy_assignment" "name" {
     for unique in local.assignments_list : "${unique.type}-${unique.policy}-${unique.unique_scope}" => unique if unique.type == "SUB"
   }
   name                 = each.key
-  policy_definition_id = azurerm_policy_definition.name[each.value.policy].id
+  policy_definition_id = data.azurerm_policy_definition.name[each.value.policy].id
   subscription_id      = each.value.scope
 }
 
@@ -69,7 +63,7 @@ resource "azurerm_resource_group_policy_assignment" "name" {
     for unique in local.assignments_list : "${unique.type}-${unique.policy}-${unique.unique_scope}" => unique if unique.type == "RG"
   }
   name                 = each.key
-  policy_definition_id = azurerm_policy_definition.name[each.value.policy].id
+  policy_definition_id = data.azurerm_policy_definition.name[each.value.policy].id
   resource_group_id    = each.value.scope
 }
 
@@ -78,7 +72,7 @@ resource "azurerm_resource_policy_assignment" "name" {
     for unique in local.assignments_list : "${unique.type}-${unique.policy}-${unique.unique_scope}" => unique if unique.type == "RES"
   }
   name                 = each.key
-  policy_definition_id = azurerm_policy_definition.name[each.value.policy].id
+  policy_definition_id = data.azurerm_policy_definition.name[each.value.policy].id
   resource_id          = each.value.scope
 }
 
@@ -90,7 +84,7 @@ resource "azurerm_resource_policy_exemption" "RG_assignment" {
   }
   name                 = each.key
   resource_id          = each.value.scope
-  policy_assignment_id = azurerm_resource_group_policy_assignment.name["${each.value.assignment_type}-${each.value.policy}-${each.value.assignment_unique_scope}"].id
+  policy_assignment_id = data.azurerm_resource_group_policy_assignment.name["${each.value.assignment_type}-${each.value.policy}-${each.value.assignment_unique_scope}"].id
   exemption_category   = each.value.exemption_category
 }
 
@@ -100,7 +94,7 @@ resource "azurerm_resource_policy_exemption" "SUB_assignment" {
   }
   name                 = each.key
   resource_id          = each.value.scope
-  policy_assignment_id = azurerm_subscription_policy_assignment.name["${each.value.assignment_type}-${each.value.policy}-${each.value.assignment_unique_scope}"].id
+  policy_assignment_id = data.azurerm_subscription_policy_assignment.name["${each.value.assignment_type}-${each.value.policy}-${each.value.assignment_unique_scope}"].id
   exemption_category   = each.value.exemption_category
 }
 
@@ -110,7 +104,7 @@ resource "azurerm_resource_policy_exemption" "MG_assignment" {
   }
   name                 = each.key
   resource_id          = each.value.scope
-  policy_assignment_id = azurerm_management_group_policy_assignment.name["${each.value.assignment_type}-${each.value.policy}-${each.value.assignment_unique_scope}"].id
+  policy_assignment_id = data.azurerm_management_group_policy_assignment.name["${each.value.assignment_type}-${each.value.policy}-${each.value.assignment_unique_scope}"].id
   exemption_category   = each.value.exemption_category
 }
 
@@ -120,7 +114,7 @@ resource "azurerm_resource_group_policy_exemption" "SUB_assignment" {
   }
   name                 = each.key
   resource_group_id    = each.value.scope
-  policy_assignment_id = azurerm_subscription_policy_assignment.name["${each.value.assignment_type}-${each.value.policy}-${each.value.assignment_unique_scope}"].id
+  policy_assignment_id = data.azurerm_subscription_policy_assignment.name["${each.value.assignment_type}-${each.value.policy}-${each.value.assignment_unique_scope}"].id
   exemption_category   = each.value.exemption_category
 }
 
@@ -130,7 +124,7 @@ resource "azurerm_resource_group_policy_exemption" "MG_assignment" {
   }
   name                 = each.key
   resource_group_id    = each.value.scope
-  policy_assignment_id = azurerm_management_group_policy_assignment.name["${each.value.assignment_type}-${each.value.policy}-${each.value.assignment_unique_scope}"].id
+  policy_assignment_id = data.azurerm_management_group_policy_assignment.name["${each.value.assignment_type}-${each.value.policy}-${each.value.assignment_unique_scope}"].id
   exemption_category   = each.value.exemption_category
 }
 
@@ -140,7 +134,7 @@ resource "azurerm_subscription_policy_exemption" "MG_assignment" {
   }
   name                 = each.key
   subscription_id      = each.value.scope
-  policy_assignment_id = azurerm_management_group_policy_assignment.name["${each.value.assignment_type}-${each.value.policy}-${each.value.assignment_unique_scope}"].id
+  policy_assignment_id = data.azurerm_management_group_policy_assignment.name["${each.value.assignment_type}-${each.value.policy}-${each.value.assignment_unique_scope}"].id
   exemption_category   = each.value.exemption_category
 }
 
@@ -150,6 +144,6 @@ resource "azurerm_management_group_policy_exemption" "MG_assignment" {
   }
   name                 = each.key
   management_group_id  = each.value.scope
-  policy_assignment_id = azurerm_management_group_policy_assignment.name["${each.value.assignment_type}-${each.value.policy}-${each.value.assignment_unique_scope}"].id
+  policy_assignment_id = data.azurerm_management_group_policy_assignment.name["${each.value.assignment_type}-${each.value.policy}-${each.value.assignment_unique_scope}"].id
   exemption_category   = each.value.exemption_category
 }
