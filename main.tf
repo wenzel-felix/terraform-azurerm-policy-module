@@ -1,7 +1,11 @@
+############ Custom Policy Definitions ############
+
 module "custom_policies" {
   source          = "./custom_policies/"
   custom_policies = var.custom_policies
 }
+
+############ BuiltIn Policy Definitions ############
 
 module "builtIn_policies" {
   source           = "./builtIn_policies/"
