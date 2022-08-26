@@ -30,7 +30,7 @@ variable "policy_sets" {
     {
       display_name                  = string
       metadata                      = string
-      policy_definitions_reference = list(string)
+      policy_definition_references = list(string)
       assignments = list(object({
         type     = string
         scope    = string
