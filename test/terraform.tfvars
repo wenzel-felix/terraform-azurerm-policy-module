@@ -137,7 +137,7 @@ builtIn_policies = {
       }
     ]
   },
-  "Configure disk access resources to use private DNS zones" : {
+  "API Management calls to API backends should not bypass certificate thumbprint or name validation" : {
     assignments = [
       {
         type       = "RG"
