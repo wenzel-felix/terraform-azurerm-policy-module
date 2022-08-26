@@ -17,6 +17,13 @@ variable "custom_policies" {
       }))
     }
   ))
+  validation {
+    condition = alltrue([
+      for type in var.custom_policies[*].assignments[*].type : 
+      contains(["RES","RG","SUB","MG"], type)
+    ])
+    error_message = "The assignment type can only be RES, RG, SUB or MG."
+  }
 }
 variable "policy_config_path" {
   description = "The path to the policy folders. (eg. './policies/')"
