@@ -1,8 +1,7 @@
 policy_config_path = "policies/"
 custom_policies = {
-  "accTestPolicy" : {
+  "acceptance test policy definition" : {
     mode         = "Indexed"
-    display_name = "acceptance test policy definition"
     metadata     = <<METADATA
         {
             "category": "General"
@@ -11,7 +10,7 @@ custom_policies = {
     assignments = [
       {
         type     = "RG"
-        scope    = "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example2"
+        scope    = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2"
         metadata = <<METADATA
         {
             "category": "General"
@@ -20,7 +19,7 @@ custom_policies = {
         exemptions = [
           {
             type               = "RES"
-            scope              = "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example2/providers/Microsoft.Storage/storageAccounts/geantnamelllawdadad2"
+            scope              = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2/providers/Microsoft.Storage/storageAccounts/geantnamelllawdadad2"
             exemption_category = "Waiver"
             metadata           = <<METADATA
         {
@@ -32,7 +31,7 @@ custom_policies = {
       },
       {
         type       = "RG"
-        scope      = "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example1"
+        scope      = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example1"
         metadata   = <<METADATA
         {
             "category": "General"
@@ -42,7 +41,7 @@ custom_policies = {
       },
       {
         type       = "RES"
-        scope      = "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example1/providers/Microsoft.Storage/storageAccounts/geantnamelllawdadad1"
+        scope      = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example1/providers/Microsoft.Storage/storageAccounts/geantnamelllawdadad1"
         metadata   = <<METADATA
         {
             "category": "General"
@@ -52,9 +51,8 @@ custom_policies = {
       }
     ]
   },
-  "accTestPolicy2" : {
+  "acceptance test policy definition2" : {
     mode         = "All"
-    display_name = "acceptance test policy definition2"
     metadata     = <<METADATA
         {
             "category": "General"
@@ -62,9 +60,8 @@ custom_policies = {
     METADATA
     assignments  = []
   },
-  "accTestPolicy3" : {
+  "acceptance test policy definition3" : {
     mode         = "All"
-    display_name = "acceptance test policy definition3"
     metadata     = <<METADATA
         {
             "category": "General"
@@ -74,22 +71,21 @@ custom_policies = {
   }
 }
 policy_sets = {
-  "accTestPolicySet" : {
-    display_name = "acceptance test policy set definition for 2 and 3"
+  "acceptance test policy set definition for 2 and 3" : {
     metadata     = <<METADATA
         {
             "category": "General"
         }
     METADATA
     policy_definition_references = [
-      "accTestPolicy2",
-      "accTestPolicy3",
+      "acceptance test policy definition2",
+      "acceptance test policy definition3",
       "Audit VMs that do not use managed disks"
     ]
     assignments = [
       {
         type     = "RG"
-        scope    = "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example2"
+        scope    = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2"
         metadata = <<METADATA
         {
             "category": "General"
@@ -98,7 +94,7 @@ policy_sets = {
         exemptions = [
           {
             type               = "RES"
-            scope              = "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example2/providers/Microsoft.Storage/storageAccounts/geantnamelllawdadad2"
+            scope              = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2/providers/Microsoft.Storage/storageAccounts/geantnamelllawdadad2"
             exemption_category = "Waiver"
             metadata           = <<METADATA
         {
@@ -116,7 +112,7 @@ builtIn_policies = {
     assignments = [
       {
         type     = "RG"
-        scope    = "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example2"
+        scope    = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2"
         metadata = <<METADATA
         {
             "category": "General"
@@ -125,7 +121,7 @@ builtIn_policies = {
         exemptions = [
           {
             type               = "RES"
-            scope              = "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example2/providers/Microsoft.Storage/storageAccounts/geantnamelllawdadad2"
+            scope              = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2/providers/Microsoft.Storage/storageAccounts/geantnamelllawdadad2"
             exemption_category = "Waiver"
             metadata           = <<METADATA
         {
@@ -141,7 +137,7 @@ builtIn_policies = {
     assignments = [
       {
         type       = "RG"
-        scope      = "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example1"
+        scope      = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example1"
         metadata   = <<METADATA
         {
             "category": "General"
