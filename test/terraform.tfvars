@@ -81,7 +81,7 @@ policy_sets = {
             "category": "General"
         }
     METADATA
-    policy_definitions_references = [
+    policy_definitions_reference = [
       "accTestPolicy2",
       "accTestPolicy3",
       "Audit VMs that do not use managed disks"
