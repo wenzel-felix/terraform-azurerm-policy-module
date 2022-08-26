@@ -17,6 +17,44 @@ variable "custom_policies" {
       }))
     }
   ))
+  validation {
+    condition = alltrue([
+      for policy in var.custom_policies:
+      policy.assignments != [] ? alltrue([
+        for type in policy.assignments[*].type: 
+          contains(["RES","RG","SUB","MG"], type)
+          ]) : true
+    ])
+    error_message = "The assignment type can only be RES, RG, SUB or MG."
+  }
+
+  validation {
+    condition = alltrue([
+      for policy in var.custom_policies:
+      policy.assignments != [] ? alltrue([
+        for assignment in policy.assignments: 
+          assignment.exemptions != [] ? alltrue([
+          for type in assignment.exemptions[*].type: 
+            contains(["RES","RG","SUB","MG"], type)
+          ]) : true
+    ]) : true
+    ])
+    error_message = "The exemption type can only be RES, RG, SUB or MG."
+  }
+
+  validation {
+    condition = alltrue([
+      for policy in var.custom_policies:
+      policy.assignments != [] ? alltrue([
+        for assignment in policy.assignments: 
+          assignment.exemptions != [] ? alltrue([
+          for exemption in assignment.exemptions: 
+            length(regexall(assignment.scope, exemption.scope)) > 0
+          ]) : true
+    ]) : true
+    ])
+    error_message = "The exemption scope is not in the scope of the assignment."
+  }
 }
 variable "policy_config_path" {
   description = "The path to the policy folders. (eg. './policies/')"
@@ -42,6 +80,45 @@ variable "policy_sets" {
       }))
     }
   ))
+
+  validation {
+    condition = alltrue([
+      for policy in var.policy_sets:
+      policy.assignments != [] ? alltrue([
+        for type in policy.assignments[*].type: 
+          contains(["RES","RG","SUB","MG"], type)
+          ]) : true
+    ])
+    error_message = "The assignment type can only be RES, RG, SUB or MG."
+  }
+
+  validation {
+    condition = alltrue([
+      for policy in var.policy_sets:
+      policy.assignments != [] ? alltrue([
+        for assignment in policy.assignments: 
+          assignment.exemptions != [] ? alltrue([
+          for type in assignment.exemptions[*].type: 
+            contains(["RES","RG","SUB","MG"], type)
+          ]) : true
+    ]) : true
+    ])
+    error_message = "The exemption type can only be RES, RG, SUB or MG."
+  }
+
+  validation {
+    condition = alltrue([
+      for policy in var.policy_sets:
+      policy.assignments != [] ? alltrue([
+        for assignment in policy.assignments: 
+          assignment.exemptions != [] ? alltrue([
+          for exemption in assignment.exemptions: 
+            length(regexall(assignment.scope, exemption.scope)) > 0
+          ]) : true
+    ]) : true
+    ])
+    error_message = "The exemption scope is not in the scope of the assignment."
+  }
 }
 variable "builtIn_policies" {
   description = "The configuration for the policies to be installed."
@@ -60,4 +137,43 @@ variable "builtIn_policies" {
       }))
     }
   ))
+
+  validation {
+    condition = alltrue([
+      for policy in var.builtIn_policies:
+      policy.assignments != [] ? alltrue([
+        for type in policy.assignments[*].type: 
+          contains(["RES","RG","SUB","MG"], type)
+          ]) : true
+    ])
+    error_message = "The assignment type can only be RES, RG, SUB or MG."
+  }
+
+  validation {
+    condition = alltrue([
+      for policy in var.builtIn_policies:
+      policy.assignments != [] ? alltrue([
+        for assignment in policy.assignments: 
+          assignment.exemptions != [] ? alltrue([
+          for type in assignment.exemptions[*].type: 
+            contains(["RES","RG","SUB","MG"], type)
+          ]) : true
+    ]) : true
+    ])
+    error_message = "The exemption type can only be RES, RG, SUB or MG."
+  }
+
+  validation {
+    condition = alltrue([
+      for policy in var.builtIn_policies:
+      policy.assignments != [] ? alltrue([
+        for assignment in policy.assignments: 
+          assignment.exemptions != [] ? alltrue([
+          for exemption in assignment.exemptions: 
+            length(regexall(assignment.scope, exemption.scope)) > 0
+          ]) : true
+    ]) : true
+    ])
+    error_message = "The exemption scope is not in the scope of the assignment."
+  }
 }
