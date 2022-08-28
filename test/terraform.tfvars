@@ -1,17 +1,18 @@
 policy_config_path = "policies/"
 custom_policies = {
   "acceptance test policy definition" : {
-    mode         = "Indexed"
-    metadata     = <<METADATA
+    mode     = "Indexed"
+    metadata = <<METADATA
         {
             "category": "General"
         }
     METADATA
     assignments = [
       {
-        type     = "RG"
-        scope    = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2"
-        metadata = <<METADATA
+        type         = "RG"
+        scope        = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2"
+        use_identity = true
+        metadata     = <<METADATA
         {
             "category": "General"
         }
@@ -30,49 +31,51 @@ custom_policies = {
         ]
       },
       {
-        type       = "RG"
-        scope      = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example1"
-        metadata   = <<METADATA
+        type         = "RG"
+        scope        = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example1"
+        use_identity = false
+        metadata     = <<METADATA
         {
             "category": "General"
         }
     METADATA
-        exemptions = []
+        exemptions   = []
       },
       {
-        type       = "RES"
-        scope      = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example1/providers/Microsoft.Storage/storageAccounts/geantnamelllawdadad1"
-        metadata   = <<METADATA
+        type         = "RES"
+        scope        = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example1/providers/Microsoft.Storage/storageAccounts/geantnamelllawdadad1"
+        use_identity = false
+        metadata     = <<METADATA
         {
             "category": "General"
         }
     METADATA
-        exemptions = []
+        exemptions   = []
       }
     ]
   },
   "acceptance test policy definition2" : {
-    mode         = "All"
-    metadata     = <<METADATA
+    mode        = "All"
+    metadata    = <<METADATA
         {
             "category": "General"
         }
     METADATA
-    assignments  = []
+    assignments = []
   },
   "acceptance test policy definition3" : {
-    mode         = "All"
-    metadata     = <<METADATA
+    mode        = "All"
+    metadata    = <<METADATA
         {
             "category": "General"
         }
     METADATA
-    assignments  = []
+    assignments = []
   }
 }
 policy_sets = {
   "acceptance test policy set definition for 2 and 3" : {
-    metadata     = <<METADATA
+    metadata = <<METADATA
         {
             "category": "General"
         }
@@ -84,9 +87,10 @@ policy_sets = {
     ]
     assignments = [
       {
-        type     = "RG"
-        scope    = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2"
-        metadata = <<METADATA
+        type         = "RG"
+        scope        = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2"
+        use_identity = false
+        metadata     = <<METADATA
         {
             "category": "General"
         }
@@ -111,9 +115,10 @@ builtIn_policies = {
   "Audit VMs that do not use managed disks" : {
     assignments = [
       {
-        type     = "RG"
-        scope    = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2"
-        metadata = <<METADATA
+        type         = "RG"
+        scope        = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2"
+        use_identity = false
+        metadata     = <<METADATA
         {
             "category": "General"
         }
@@ -136,14 +141,15 @@ builtIn_policies = {
   "API Management calls to API backends should not bypass certificate thumbprint or name validation" : {
     assignments = [
       {
-        type       = "RG"
-        scope      = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example1"
-        metadata   = <<METADATA
+        type         = "RG"
+        scope        = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example1"
+        use_identity = false
+        metadata     = <<METADATA
         {
             "category": "General"
         }
     METADATA
-        exemptions = []
+        exemptions   = []
       }
     ]
   }

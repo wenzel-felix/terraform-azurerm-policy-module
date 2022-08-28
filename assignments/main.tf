@@ -4,11 +4,12 @@ locals {
     lookup(v, "assignments", false) != false ?
     [
       for assignment in v.assignments : {
-        scope        = assignment.scope
-        unique_scope = element(split("/", assignment.scope), length(split("/", assignment.scope)) - 1)
-        type         = assignment.type
-        policy       = k
-        policy_acronym          = join("", regexall("[A-Z]+", title(k)))
+        scope          = assignment.scope
+        unique_scope   = element(split("/", assignment.scope), length(split("/", assignment.scope)) - 1)
+        type           = assignment.type
+        use_identity   = assignment.use_identity
+        policy         = k
+        policy_acronym = join("", regexall("[A-Z]+", title(k)))
       }
     ] : []
   ]))
@@ -44,6 +45,15 @@ resource "azurerm_management_group_policy_assignment" "name" {
   name                 = each.key
   policy_definition_id = var.policy_definitions[each.value.policy].id
   management_group_id  = each.value.scope
+
+  dynamic "identity" {
+    for_each = each.value.use_identity == true ? [1] : []
+    content {
+      identity {
+        type = "SystemAssigned"
+      }
+    }
+  }
 }
 
 resource "azurerm_subscription_policy_assignment" "name" {
@@ -53,6 +63,15 @@ resource "azurerm_subscription_policy_assignment" "name" {
   name                 = each.key
   policy_definition_id = var.policy_definitions[each.value.policy].id
   subscription_id      = each.value.scope
+
+  dynamic "identity" {
+    for_each = each.value.use_identity == true ? [1] : []
+    content {
+      identity {
+        type = "SystemAssigned"
+      }
+    }
+  }
 }
 
 resource "azurerm_resource_group_policy_assignment" "name" {
@@ -62,6 +81,15 @@ resource "azurerm_resource_group_policy_assignment" "name" {
   name                 = each.key
   policy_definition_id = var.policy_definitions[each.value.policy].id
   resource_group_id    = each.value.scope
+
+  dynamic "identity" {
+    for_each = each.value.use_identity == true ? [1] : []
+    content {
+      identity {
+        type = "SystemAssigned"
+      }
+    }
+  }
 }
 
 resource "azurerm_resource_policy_assignment" "name" {
@@ -71,6 +99,15 @@ resource "azurerm_resource_policy_assignment" "name" {
   name                 = each.key
   policy_definition_id = var.policy_definitions[each.value.policy].id
   resource_id          = each.value.scope
+
+  dynamic "identity" {
+    for_each = each.value.use_identity == true ? [1] : []
+    content {
+      identity {
+        type = "SystemAssigned"
+      }
+    }
+  }
 }
 
 ############ Policy Exemptions ############
