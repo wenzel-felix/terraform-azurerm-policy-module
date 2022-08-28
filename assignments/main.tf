@@ -7,7 +7,7 @@ locals {
         scope          = assignment.scope
         unique_scope   = element(split("/", assignment.scope), length(split("/", assignment.scope)) - 1)
         type           = assignment.type
-        use_identity   = assignment.use_identity
+        identity       = assignment.identity
         policy         = k
         policy_acronym = join("", regexall("[A-Z]+", title(k)))
       }
@@ -47,13 +47,12 @@ resource "azurerm_management_group_policy_assignment" "name" {
   management_group_id  = each.value.scope
 
   dynamic "identity" {
-    for_each = each.value.use_identity == true ? [1] : []
+    for_each = lookup(each.value.identity, "use", false) ? [1] : []
     content {
-      identity {
-        type = "SystemAssigned"
-      }
+      type = "SystemAssigned"
     }
   }
+  location = lookup(each.value.identity, "location", var.default_identity_location) == "" && lookup(each.value.identity, "use", false) ? var.default_identity_location : lookup(each.value.identity, "location", var.default_identity_location)
 }
 
 resource "azurerm_subscription_policy_assignment" "name" {
@@ -65,13 +64,12 @@ resource "azurerm_subscription_policy_assignment" "name" {
   subscription_id      = each.value.scope
 
   dynamic "identity" {
-    for_each = each.value.use_identity == true ? [1] : []
+    for_each = lookup(each.value.identity, "use", false) ? [1] : []
     content {
-      identity {
-        type = "SystemAssigned"
-      }
+      type = "SystemAssigned"
     }
   }
+  location = lookup(each.value.identity, "location", var.default_identity_location) == "" && lookup(each.value.identity, "use", false) ? var.default_identity_location : lookup(each.value.identity, "location", var.default_identity_location)
 }
 
 resource "azurerm_resource_group_policy_assignment" "name" {
@@ -83,13 +81,12 @@ resource "azurerm_resource_group_policy_assignment" "name" {
   resource_group_id    = each.value.scope
 
   dynamic "identity" {
-    for_each = each.value.use_identity == true ? [1] : []
+    for_each = lookup(each.value.identity, "use", false) ? [1] : []
     content {
-      identity {
-        type = "SystemAssigned"
-      }
+      type = "SystemAssigned"
     }
   }
+  location = lookup(each.value.identity, "location", var.default_identity_location) == "" && lookup(each.value.identity, "use", false) ? var.default_identity_location : lookup(each.value.identity, "location", var.default_identity_location)
 }
 
 resource "azurerm_resource_policy_assignment" "name" {
@@ -101,13 +98,12 @@ resource "azurerm_resource_policy_assignment" "name" {
   resource_id          = each.value.scope
 
   dynamic "identity" {
-    for_each = each.value.use_identity == true ? [1] : []
+    for_each = lookup(each.value.identity, "use", false) ? [1] : []
     content {
-      identity {
-        type = "SystemAssigned"
-      }
+      type = "SystemAssigned"
     }
   }
+  location = lookup(each.value.identity, "location", var.default_identity_location) == "" && lookup(each.value.identity, "use", false) ? var.default_identity_location : lookup(each.value.identity, "location", var.default_identity_location)
 }
 
 ############ Policy Exemptions ############

@@ -1,4 +1,5 @@
-policy_config_path = "policies/"
+policy_config_path        = "policies/"
+default_identity_location = "westeurope"
 custom_policies = {
   "acceptance test policy definition" : {
     mode     = "Indexed"
@@ -9,10 +10,13 @@ custom_policies = {
     METADATA
     assignments = [
       {
-        type         = "RG"
-        scope        = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2"
-        use_identity = true
-        metadata     = <<METADATA
+        type  = "RG"
+        scope = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2"
+        identity = {
+          use      = true
+          location = ""
+        }
+        metadata = <<METADATA
         {
             "category": "General"
         }
@@ -31,26 +35,32 @@ custom_policies = {
         ]
       },
       {
-        type         = "RG"
-        scope        = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example1"
-        use_identity = false
-        metadata     = <<METADATA
+        type  = "RG"
+        scope = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example1"
+        identity = {
+          use      = false
+          location = ""
+        }
+        metadata   = <<METADATA
         {
             "category": "General"
         }
     METADATA
-        exemptions   = []
+        exemptions = []
       },
       {
-        type         = "RES"
-        scope        = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example1/providers/Microsoft.Storage/storageAccounts/geantnamelllawdadad1"
-        use_identity = false
-        metadata     = <<METADATA
+        type  = "RES"
+        scope = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example1/providers/Microsoft.Storage/storageAccounts/geantnamelllawdadad1"
+        identity = {
+          use      = false
+          location = ""
+        }
+        metadata   = <<METADATA
         {
             "category": "General"
         }
     METADATA
-        exemptions   = []
+        exemptions = []
       }
     ]
   },
@@ -87,10 +97,13 @@ policy_sets = {
     ]
     assignments = [
       {
-        type         = "RG"
-        scope        = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2"
-        use_identity = false
-        metadata     = <<METADATA
+        type  = "RG"
+        scope = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2"
+        identity = {
+          use      = false
+          location = ""
+        }
+        metadata = <<METADATA
         {
             "category": "General"
         }
@@ -115,10 +128,13 @@ builtIn_policies = {
   "Audit VMs that do not use managed disks" : {
     assignments = [
       {
-        type         = "RG"
-        scope        = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2"
-        use_identity = false
-        metadata     = <<METADATA
+        type  = "RG"
+        scope = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2"
+        identity = {
+          use      = false
+          location = ""
+        }
+        metadata = <<METADATA
         {
             "category": "General"
         }
@@ -141,15 +157,18 @@ builtIn_policies = {
   "API Management calls to API backends should not bypass certificate thumbprint or name validation" : {
     assignments = [
       {
-        type         = "RG"
-        scope        = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example1"
-        use_identity = false
-        metadata     = <<METADATA
+        type  = "RG"
+        scope = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example1"
+        identity = {
+          use      = false
+          location = ""
+        }
+        metadata   = <<METADATA
         {
             "category": "General"
         }
     METADATA
-        exemptions   = []
+        exemptions = []
       }
     ]
   }

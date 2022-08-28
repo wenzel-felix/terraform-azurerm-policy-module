@@ -10,10 +10,13 @@ variable "custom_policies" {
       mode     = string
       metadata = string
       assignments = list(object({
-        type         = string
-        scope        = string
-        metadata     = string
-        use_identity = bool
+        type     = string
+        scope    = string
+        metadata = string
+        identity = object({
+          use      = bool
+          location = string
+        })
         exemptions = list(object({
           type               = string
           scope              = string
@@ -69,10 +72,13 @@ variable "policy_sets" {
       metadata                     = string
       policy_definition_references = list(string)
       assignments = list(object({
-        type         = string
-        scope        = string
-        metadata     = string
-        use_identity = bool
+        type     = string
+        scope    = string
+        metadata = string
+        identity = object({
+          use      = bool
+          location = string
+        })
         exemptions = list(object({
           type               = string
           scope              = string
@@ -127,10 +133,13 @@ variable "builtIn_policies" {
   type = map(object(
     {
       assignments = list(object({
-        type         = string
-        scope        = string
-        metadata     = string
-        use_identity = bool
+        type     = string
+        scope    = string
+        metadata = string
+        identity = object({
+          use      = bool
+          location = string
+        })
         exemptions = list(object({
           type               = string
           scope              = string
@@ -179,4 +188,8 @@ variable "builtIn_policies" {
     ])
     error_message = "The exemption scope is not in the scope of the assignment."
   }
+}
+variable "default_identity_location" {
+  description = "The default location for the policies' identities."
+  type        = string
 }
