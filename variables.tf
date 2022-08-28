@@ -12,7 +12,8 @@ variable "custom_policies" {
       assignments = list(object({
         type     = string
         scope    = string
-        metadata = string
+        metadata = map(any)
+        non_compliance_message = string
         identity = object({
           use      = bool
           location = string
@@ -20,7 +21,7 @@ variable "custom_policies" {
         exemptions = list(object({
           type               = string
           scope              = string
-          metadata           = string
+          metadata = map(any)
           exemption_category = string
         }))
       }))
@@ -74,7 +75,8 @@ variable "policy_sets" {
       assignments = list(object({
         type     = string
         scope    = string
-        metadata = string
+        metadata = map(any)
+        non_compliance_message = string
         identity = object({
           use      = bool
           location = string
@@ -82,7 +84,7 @@ variable "policy_sets" {
         exemptions = list(object({
           type               = string
           scope              = string
-          metadata           = string
+          metadata = map(any)
           exemption_category = string
         }))
       }))
@@ -135,7 +137,8 @@ variable "builtIn_policies" {
       assignments = list(object({
         type     = string
         scope    = string
-        metadata = string
+        metadata = map(any)
+        non_compliance_message = string
         identity = object({
           use      = bool
           location = string
@@ -143,7 +146,7 @@ variable "builtIn_policies" {
         exemptions = list(object({
           type               = string
           scope              = string
-          metadata           = string
+          metadata = map(any)
           exemption_category = string
         }))
       }))

@@ -3,11 +3,7 @@ default_identity_location = "westeurope"
 custom_policies = {
   "acceptance test policy definition" : {
     mode     = "Indexed"
-    metadata = <<METADATA
-        {
-            "category": "General"
-        }
-    METADATA
+    metadata = { category= "General" }
     assignments = [
       {
         type  = "RG"
@@ -16,21 +12,13 @@ custom_policies = {
           use      = true
           location = ""
         }
-        metadata = <<METADATA
-        {
-            "category": "General"
-        }
-    METADATA
+        metadata = { category= "General" }
         exemptions = [
           {
             type               = "RES"
             scope              = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2/providers/Microsoft.Storage/storageAccounts/geantnamelllawdadad2"
             exemption_category = "Waiver"
-            metadata           = <<METADATA
-        {
-            "category": "General"
-        }
-    METADATA
+            metadata = { category= "General" }
           }
         ]
       },
@@ -41,11 +29,7 @@ custom_policies = {
           use      = false
           location = ""
         }
-        metadata   = <<METADATA
-        {
-            "category": "General"
-        }
-    METADATA
+        metadata = { category= "General" }
         exemptions = []
       },
       {
@@ -55,41 +39,25 @@ custom_policies = {
           use      = false
           location = ""
         }
-        metadata   = <<METADATA
-        {
-            "category": "General"
-        }
-    METADATA
+        metadata = { category= "General" }
         exemptions = []
       }
     ]
   },
   "acceptance test policy definition2" : {
     mode        = "All"
-    metadata    = <<METADATA
-        {
-            "category": "General"
-        }
-    METADATA
+    metadata = { category= "General" }
     assignments = []
   },
   "acceptance test policy definition3" : {
     mode        = "All"
-    metadata    = <<METADATA
-        {
-            "category": "General"
-        }
-    METADATA
+    metadata = { category= "General" }
     assignments = []
   }
 }
 policy_sets = {
   "acceptance test policy set definition for 2 and 3" : {
-    metadata = <<METADATA
-        {
-            "category": "General"
-        }
-    METADATA
+    metadata = { category= "General" }
     policy_definition_references = [
       "acceptance test policy definition2",
       "acceptance test policy definition3",
@@ -103,21 +71,13 @@ policy_sets = {
           use      = false
           location = ""
         }
-        metadata = <<METADATA
-        {
-            "category": "General"
-        }
-    METADATA
+        metadata = { category= "General" }
         exemptions = [
           {
             type               = "RES"
             scope              = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2/providers/Microsoft.Storage/storageAccounts/geantnamelllawdadad2"
             exemption_category = "Waiver"
-            metadata           = <<METADATA
-        {
-            "category": "General"
-        }
-    METADATA
+            metadata = { category= "General" }
           }
         ]
       }
@@ -134,21 +94,13 @@ builtIn_policies = {
           use      = false
           location = ""
         }
-        metadata = <<METADATA
-        {
-            "category": "General"
-        }
-    METADATA
+        metadata = { category= "General" }
         exemptions = [
           {
             type               = "RES"
             scope              = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2/providers/Microsoft.Storage/storageAccounts/geantnamelllawdadad2"
             exemption_category = "Waiver"
-            metadata           = <<METADATA
-        {
-            "category": "General"
-        }
-    METADATA
+            metadata = { category= "General" }
           }
         ]
       }
@@ -163,11 +115,7 @@ builtIn_policies = {
           use      = false
           location = ""
         }
-        metadata   = <<METADATA
-        {
-            "category": "General"
-        }
-    METADATA
+        metadata = { category= "General" }
         exemptions = []
       }
     ]
