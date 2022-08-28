@@ -8,6 +8,7 @@ custom_policies = {
       {
         type  = "RG"
         scope = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2"
+        non_compliance_message = "non_compliance_message"
         identity = {
           use      = true
           location = ""
@@ -29,6 +30,7 @@ custom_policies = {
           use      = false
           location = ""
         }
+        non_compliance_message = "non_compliance_message"
         metadata   = { category = "General" }
         exemptions = []
       },
@@ -39,6 +41,7 @@ custom_policies = {
           use      = false
           location = ""
         }
+        non_compliance_message = "non_compliance_message"
         metadata   = { category = "General" }
         exemptions = []
       }
@@ -71,6 +74,7 @@ policy_sets = {
           use      = false
           location = ""
         }
+        non_compliance_message = "non_compliance_message"
         metadata = { category = "General" }
         exemptions = [
           {
@@ -94,6 +98,7 @@ builtIn_policies = {
           use      = false
           location = ""
         }
+        non_compliance_message = "non_compliance_message"
         metadata = { category = "General" }
         exemptions = [
           {
@@ -115,6 +120,7 @@ builtIn_policies = {
           use      = false
           location = ""
         }
+        non_compliance_message = "non_compliance_message"
         metadata   = { category = "General" }
         exemptions = []
       }

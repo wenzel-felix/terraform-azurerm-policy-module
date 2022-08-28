@@ -8,7 +8,7 @@ variable "custom_policies" {
   type = map(object(
     {
       mode     = string
-      metadata = string
+      metadata               = map(any)
       assignments = list(object({
         type                   = string
         scope                  = string
@@ -70,7 +70,7 @@ variable "policy_sets" {
   description = "The policy sets to be installed."
   type = map(object(
     {
-      metadata                     = string
+      metadata               = map(any)
       policy_definition_references = list(string)
       assignments = list(object({
         type                   = string
