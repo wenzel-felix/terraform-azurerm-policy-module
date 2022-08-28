@@ -8,11 +8,12 @@ variable "custom_policies" {
   type = map(object(
     {
       mode     = string
-      metadata = string
+      metadata               = map(any)
       assignments = list(object({
-        type     = string
-        scope    = string
-        metadata = string
+        type                   = string
+        scope                  = string
+        metadata               = map(any)
+        non_compliance_message = string
         identity = object({
           use      = bool
           location = string
@@ -20,7 +21,7 @@ variable "custom_policies" {
         exemptions = list(object({
           type               = string
           scope              = string
-          metadata           = string
+          metadata           = map(any)
           exemption_category = string
         }))
       }))
@@ -69,12 +70,13 @@ variable "policy_sets" {
   description = "The policy sets to be installed."
   type = map(object(
     {
-      metadata                     = string
+      metadata               = map(any)
       policy_definition_references = list(string)
       assignments = list(object({
-        type     = string
-        scope    = string
-        metadata = string
+        type                   = string
+        scope                  = string
+        metadata               = map(any)
+        non_compliance_message = string
         identity = object({
           use      = bool
           location = string
@@ -82,7 +84,7 @@ variable "policy_sets" {
         exemptions = list(object({
           type               = string
           scope              = string
-          metadata           = string
+          metadata           = map(any)
           exemption_category = string
         }))
       }))
@@ -133,9 +135,10 @@ variable "builtIn_policies" {
   type = map(object(
     {
       assignments = list(object({
-        type     = string
-        scope    = string
-        metadata = string
+        type                   = string
+        scope                  = string
+        metadata               = map(any)
+        non_compliance_message = string
         identity = object({
           use      = bool
           location = string
@@ -143,7 +146,7 @@ variable "builtIn_policies" {
         exemptions = list(object({
           type               = string
           scope              = string
-          metadata           = string
+          metadata           = map(any)
           exemption_category = string
         }))
       }))
