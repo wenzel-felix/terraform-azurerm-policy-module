@@ -10,3 +10,7 @@ variable "policy_sets" {
 variable "builtIn_policies" {
   description = "The configuration for the policies to be installed."
 }
+variable "default_identity_location" {
+  description = "The default location for the policies' identities."
+  default     = "westeurope"
+}
