@@ -4,13 +4,13 @@ locals {
     lookup(v, "assignments", false) != false ?
     [
       for assignment in v.assignments : {
-        scope          = assignment.scope
-        unique_scope   = element(split("/", assignment.scope), length(split("/", assignment.scope)) - 1)
-        type           = assignment.type
-        identity       = assignment.identity
-        policy         = k
-        policy_acronym = join("", regexall("[A-Z]+", title(k)))
-        metadata       = jsonencode(assignment.metadata)
+        scope                  = assignment.scope
+        unique_scope           = element(split("/", assignment.scope), length(split("/", assignment.scope)) - 1)
+        type                   = assignment.type
+        identity               = assignment.identity
+        policy                 = k
+        policy_acronym         = join("", regexall("[A-Z]+", title(k)))
+        metadata               = jsonencode(assignment.metadata)
         non_compliance_message = assignment.non_compliance_message
       }
     ] : []
@@ -31,7 +31,7 @@ locals {
           policy                  = k
           policy_acronym          = join("", regexall("[A-Z]+", title(k)))
           exemption_category      = exemption.exemption_category
-          metadata       = jsonencode(exemption.metadata)
+          metadata                = jsonencode(exemption.metadata)
         }
       ] : []
     ] : []
@@ -48,7 +48,7 @@ resource "azurerm_management_group_policy_assignment" "name" {
   name                 = each.key
   policy_definition_id = var.policy_definitions[each.value.policy].id
   management_group_id  = each.value.scope
-  metadata  = each.value.metadata
+  metadata             = each.value.metadata
   non_compliance_message {
     content = each.value.non_compliance_message
   }
@@ -69,7 +69,7 @@ resource "azurerm_subscription_policy_assignment" "name" {
   name                 = each.key
   policy_definition_id = var.policy_definitions[each.value.policy].id
   subscription_id      = each.value.scope
-  metadata  = each.value.metadata
+  metadata             = each.value.metadata
   non_compliance_message {
     content = each.value.non_compliance_message
   }
@@ -90,7 +90,7 @@ resource "azurerm_resource_group_policy_assignment" "name" {
   name                 = each.key
   policy_definition_id = var.policy_definitions[each.value.policy].id
   resource_group_id    = each.value.scope
-  metadata  = each.value.metadata
+  metadata             = each.value.metadata
   non_compliance_message {
     content = each.value.non_compliance_message
   }
@@ -111,7 +111,7 @@ resource "azurerm_resource_policy_assignment" "name" {
   name                 = each.key
   policy_definition_id = var.policy_definitions[each.value.policy].id
   resource_id          = each.value.scope
-  metadata  = each.value.metadata
+  metadata             = each.value.metadata
   non_compliance_message {
     content = each.value.non_compliance_message
   }
@@ -135,7 +135,7 @@ resource "azurerm_resource_policy_exemption" "RG_assignment" {
   resource_id          = each.value.scope
   policy_assignment_id = azurerm_resource_group_policy_assignment.name["${each.value.assignment_type}-${each.value.policy_acronym}-${each.value.assignment_unique_scope}"].id
   exemption_category   = each.value.exemption_category
-  metadata  = each.value.metadata
+  metadata             = each.value.metadata
 }
 
 resource "azurerm_resource_policy_exemption" "SUB_assignment" {
@@ -146,7 +146,7 @@ resource "azurerm_resource_policy_exemption" "SUB_assignment" {
   resource_id          = each.value.scope
   policy_assignment_id = azurerm_subscription_policy_assignment.name["${each.value.assignment_type}-${each.value.policy_acronym}-${each.value.assignment_unique_scope}"].id
   exemption_category   = each.value.exemption_category
-  metadata  = each.value.metadata
+  metadata             = each.value.metadata
 }
 
 resource "azurerm_resource_policy_exemption" "MG_assignment" {
@@ -157,7 +157,7 @@ resource "azurerm_resource_policy_exemption" "MG_assignment" {
   resource_id          = each.value.scope
   policy_assignment_id = azurerm_management_group_policy_assignment.name["${each.value.assignment_type}-${each.value.policy_acronym}-${each.value.assignment_unique_scope}"].id
   exemption_category   = each.value.exemption_category
-  metadata  = each.value.metadata
+  metadata             = each.value.metadata
 }
 
 resource "azurerm_resource_group_policy_exemption" "SUB_assignment" {
@@ -168,7 +168,7 @@ resource "azurerm_resource_group_policy_exemption" "SUB_assignment" {
   resource_group_id    = each.value.scope
   policy_assignment_id = azurerm_subscription_policy_assignment.name["${each.value.assignment_type}-${each.value.policy_acronym}-${each.value.assignment_unique_scope}"].id
   exemption_category   = each.value.exemption_category
-  metadata  = each.value.metadata
+  metadata             = each.value.metadata
 }
 
 resource "azurerm_resource_group_policy_exemption" "MG_assignment" {
@@ -179,7 +179,7 @@ resource "azurerm_resource_group_policy_exemption" "MG_assignment" {
   resource_group_id    = each.value.scope
   policy_assignment_id = azurerm_management_group_policy_assignment.name["${each.value.assignment_type}-${each.value.policy_acronym}-${each.value.assignment_unique_scope}"].id
   exemption_category   = each.value.exemption_category
-  metadata  = each.value.metadata
+  metadata             = each.value.metadata
 }
 
 resource "azurerm_subscription_policy_exemption" "MG_assignment" {
@@ -190,7 +190,7 @@ resource "azurerm_subscription_policy_exemption" "MG_assignment" {
   subscription_id      = each.value.scope
   policy_assignment_id = azurerm_management_group_policy_assignment.name["${each.value.assignment_type}-${each.value.policy_acronym}-${each.value.assignment_unique_scope}"].id
   exemption_category   = each.value.exemption_category
-  metadata  = each.value.metadata
+  metadata             = each.value.metadata
 }
 
 resource "azurerm_management_group_policy_exemption" "MG_assignment" {
@@ -201,5 +201,5 @@ resource "azurerm_management_group_policy_exemption" "MG_assignment" {
   management_group_id  = each.value.scope
   policy_assignment_id = azurerm_management_group_policy_assignment.name["${each.value.assignment_type}-${each.value.policy_acronym}-${each.value.assignment_unique_scope}"].id
   exemption_category   = each.value.exemption_category
-  metadata  = each.value.metadata
+  metadata             = each.value.metadata
 }

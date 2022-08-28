@@ -10,9 +10,9 @@ variable "custom_policies" {
       mode     = string
       metadata = string
       assignments = list(object({
-        type     = string
-        scope    = string
-        metadata = map(any)
+        type                   = string
+        scope                  = string
+        metadata               = map(any)
         non_compliance_message = string
         identity = object({
           use      = bool
@@ -21,7 +21,7 @@ variable "custom_policies" {
         exemptions = list(object({
           type               = string
           scope              = string
-          metadata = map(any)
+          metadata           = map(any)
           exemption_category = string
         }))
       }))
@@ -73,9 +73,9 @@ variable "policy_sets" {
       metadata                     = string
       policy_definition_references = list(string)
       assignments = list(object({
-        type     = string
-        scope    = string
-        metadata = map(any)
+        type                   = string
+        scope                  = string
+        metadata               = map(any)
         non_compliance_message = string
         identity = object({
           use      = bool
@@ -84,7 +84,7 @@ variable "policy_sets" {
         exemptions = list(object({
           type               = string
           scope              = string
-          metadata = map(any)
+          metadata           = map(any)
           exemption_category = string
         }))
       }))
@@ -135,9 +135,9 @@ variable "builtIn_policies" {
   type = map(object(
     {
       assignments = list(object({
-        type     = string
-        scope    = string
-        metadata = map(any)
+        type                   = string
+        scope                  = string
+        metadata               = map(any)
         non_compliance_message = string
         identity = object({
           use      = bool
@@ -146,7 +146,7 @@ variable "builtIn_policies" {
         exemptions = list(object({
           type               = string
           scope              = string
-          metadata = map(any)
+          metadata           = map(any)
           exemption_category = string
         }))
       }))
