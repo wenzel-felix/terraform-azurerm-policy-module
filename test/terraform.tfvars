@@ -13,6 +13,7 @@ custom_policies = {
           use      = true
           location = ""
         }
+        parameters = {}
         metadata = { category = "General" }
         exemptions = [
           {
@@ -30,6 +31,7 @@ custom_policies = {
           use      = false
           location = ""
         }
+        parameters = {}
         non_compliance_message = "non_compliance_message"
         metadata               = { category = "General" }
         exemptions             = []
@@ -41,6 +43,7 @@ custom_policies = {
           use      = false
           location = ""
         }
+        parameters = {}
         non_compliance_message = "non_compliance_message"
         metadata               = { category = "General" }
         exemptions             = []
@@ -74,6 +77,7 @@ policy_sets = {
           use      = false
           location = ""
         }
+        parameters = {}
         non_compliance_message = "non_compliance_message"
         metadata               = { category = "General" }
         exemptions = [
@@ -98,6 +102,7 @@ builtIn_policies = {
           use      = false
           location = ""
         }
+        parameters = {}
         non_compliance_message = "non_compliance_message"
         metadata               = { category = "General" }
         exemptions = [
@@ -120,6 +125,7 @@ builtIn_policies = {
           use      = false
           location = ""
         }
+        parameters = {}
         non_compliance_message = "non_compliance_message"
         metadata               = { category = "General" }
         exemptions             = []
