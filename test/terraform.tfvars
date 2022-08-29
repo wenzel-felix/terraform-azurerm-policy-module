@@ -6,8 +6,8 @@ custom_policies = {
     metadata = { category = "General" }
     assignments = [
       {
-        type  = "RG"
-        scope = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2"
+        type                   = "RG"
+        scope                  = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2"
         non_compliance_message = "non_compliance_message"
         identity = {
           use      = true
@@ -31,8 +31,8 @@ custom_policies = {
           location = ""
         }
         non_compliance_message = "non_compliance_message"
-        metadata   = { category = "General" }
-        exemptions = []
+        metadata               = { category = "General" }
+        exemptions             = []
       },
       {
         type  = "RES"
@@ -42,8 +42,8 @@ custom_policies = {
           location = ""
         }
         non_compliance_message = "non_compliance_message"
-        metadata   = { category = "General" }
-        exemptions = []
+        metadata               = { category = "General" }
+        exemptions             = []
       }
     ]
   },
@@ -75,7 +75,7 @@ policy_sets = {
           location = ""
         }
         non_compliance_message = "non_compliance_message"
-        metadata = { category = "General" }
+        metadata               = { category = "General" }
         exemptions = [
           {
             type               = "RES"
@@ -99,7 +99,7 @@ builtIn_policies = {
           location = ""
         }
         non_compliance_message = "non_compliance_message"
-        metadata = { category = "General" }
+        metadata               = { category = "General" }
         exemptions = [
           {
             type               = "RES"
@@ -121,8 +121,8 @@ builtIn_policies = {
           location = ""
         }
         non_compliance_message = "non_compliance_message"
-        metadata   = { category = "General" }
-        exemptions = []
+        metadata               = { category = "General" }
+        exemptions             = []
       }
     ]
   }
