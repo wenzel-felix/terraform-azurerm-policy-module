@@ -59,7 +59,7 @@ variable "custom_policies" {
         for assignment in policy.assignments :
         assignment.exemptions != [] ? alltrue([
           for exemption in assignment.exemptions :
-          length(regexall(assignment.scope, exemption.scope)) > 0
+          length(regexall(assignment.scope, exemption.scope)) > 0 && exemption.type != "MG" && assignment.type != "MG"
         ]) : true
       ]) : true
     ])
@@ -123,7 +123,7 @@ variable "policy_sets" {
         for assignment in policy.assignments :
         assignment.exemptions != [] ? alltrue([
           for exemption in assignment.exemptions :
-          length(regexall(assignment.scope, exemption.scope)) > 0
+          length(regexall(assignment.scope, exemption.scope)) > 0 && exemption.type != "MG" && assignment.type != "MG"
         ]) : true
       ]) : true
     ])
@@ -185,7 +185,7 @@ variable "builtIn_policies" {
         for assignment in policy.assignments :
         assignment.exemptions != [] ? alltrue([
           for exemption in assignment.exemptions :
-          length(regexall(assignment.scope, exemption.scope)) > 0
+          length(regexall(assignment.scope, exemption.scope)) > 0 && exemption.type != "MG" && assignment.type != "MG"
         ]) : true
       ]) : true
     ])
