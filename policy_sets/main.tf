@@ -3,7 +3,7 @@ resource "azurerm_policy_set_definition" "name" {
   name         = each.key
   policy_type  = "Custom"
   display_name = each.key
-  metadata = jsonencode(each.value.metadata)
+  metadata     = jsonencode(each.value.metadata)
 
   dynamic "policy_definition_reference" {
     for_each = each.value.policy_definition_references

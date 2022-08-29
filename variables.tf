@@ -8,11 +8,12 @@ variable "custom_policies" {
   type = map(object(
     {
       mode     = string
-      metadata               = map(any)
+      metadata = map(any)
       assignments = list(object({
         type                   = string
         scope                  = string
         metadata               = map(any)
+        parameters             = map(any)
         non_compliance_message = string
         identity = object({
           use      = bool
@@ -70,11 +71,12 @@ variable "policy_sets" {
   description = "The policy sets to be installed."
   type = map(object(
     {
-      metadata               = map(any)
+      metadata                     = map(any)
       policy_definition_references = list(string)
       assignments = list(object({
         type                   = string
         scope                  = string
+        parameters             = map(any)
         metadata               = map(any)
         non_compliance_message = string
         identity = object({
@@ -137,6 +139,7 @@ variable "builtIn_policies" {
       assignments = list(object({
         type                   = string
         scope                  = string
+        parameters             = map(any)
         metadata               = map(any)
         non_compliance_message = string
         identity = object({

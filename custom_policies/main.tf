@@ -4,7 +4,7 @@ resource "azurerm_policy_definition" "name" {
   policy_type  = "Custom"
   mode         = lookup(each.value, "policy_type", "All")
   display_name = each.key
-  metadata = jsonencode(each.value.metadata)
+  metadata     = jsonencode(each.value.metadata)
   parameters   = file("${var.policy_config_path}${each.key}/parameters.json")
   policy_rule  = file("${var.policy_config_path}${each.key}/policy_rule.json")
 }

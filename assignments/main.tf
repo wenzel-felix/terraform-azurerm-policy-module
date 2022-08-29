@@ -8,6 +8,7 @@ locals {
         unique_scope           = element(split("/", assignment.scope), length(split("/", assignment.scope)) - 1)
         type                   = assignment.type
         identity               = assignment.identity
+        parameters             = jsonencode(assignment.parameters)
         policy                 = k
         policy_acronym         = join("", regexall("[A-Z]+", title(k)))
         metadata               = jsonencode(assignment.metadata)
@@ -49,6 +50,7 @@ resource "azurerm_management_group_policy_assignment" "name" {
   policy_definition_id = var.policy_definitions[each.value.policy].id
   management_group_id  = each.value.scope
   metadata             = each.value.metadata
+  parameters           = each.value.parameters
   non_compliance_message {
     content = each.value.non_compliance_message
   }
@@ -70,6 +72,7 @@ resource "azurerm_subscription_policy_assignment" "name" {
   policy_definition_id = var.policy_definitions[each.value.policy].id
   subscription_id      = each.value.scope
   metadata             = each.value.metadata
+  parameters           = each.value.parameters
   non_compliance_message {
     content = each.value.non_compliance_message
   }
@@ -91,6 +94,7 @@ resource "azurerm_resource_group_policy_assignment" "name" {
   policy_definition_id = var.policy_definitions[each.value.policy].id
   resource_group_id    = each.value.scope
   metadata             = each.value.metadata
+  parameters           = each.value.parameters
   non_compliance_message {
     content = each.value.non_compliance_message
   }
@@ -112,6 +116,7 @@ resource "azurerm_resource_policy_assignment" "name" {
   policy_definition_id = var.policy_definitions[each.value.policy].id
   resource_id          = each.value.scope
   metadata             = each.value.metadata
+  parameters           = each.value.parameters
   non_compliance_message {
     content = each.value.non_compliance_message
   }
