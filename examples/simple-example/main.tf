@@ -9,44 +9,56 @@ module "policy" {
     azurerm_storage_account.example1,
     azurerm_storage_account.example2
   ]
-  source                    = "../"
-  custom_policies           = var.custom_policies
-  policy_config_path        = var.policy_config_path
-  policy_sets               = var.policy_sets
-  builtIn_policies          = var.builtIn_policies
+  source                    = "../.."
+  policy_definitions_path   = var.policy_definitions_path
   default_identity_location = var.default_identity_location
+}
+
+locals {
+  location = "eastus"
 }
 
 resource "azurerm_resource_group" "example1" {
   name     = "example1"
-  location = "West Europe"
+  location = local.location
 }
 
 resource "azurerm_resource_group" "example2" {
   name     = "example2"
-  location = "West Europe"
+  location = local.location
+}
+
+resource "random_string" "example1" {
+  length  = 10
+  special = false
+  upper   = false
 }
 
 resource "azurerm_storage_account" "example1" {
-  name                     = "geantnamelllawdadad1"
+  name                     = random_string.example1.result
   resource_group_name      = azurerm_resource_group.example1.name
   location                 = azurerm_resource_group.example1.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
+}
 
-  tags = {
-    environment = "staging"
-  }
+resource "random_string" "example2" {
+  length  = 10
+  upper   = false
+  special = false
 }
 
 resource "azurerm_storage_account" "example2" {
-  name                     = "geantnamelllawdadad2"
+  name                     = random_string.example2.result
   resource_group_name      = azurerm_resource_group.example2.name
   location                 = azurerm_resource_group.example2.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
-
-  tags = {
-    environment = "staging"
-  }
 }
+
+resource "local_file" "assignment" {
+  content  = local.assignment_file_content
+  filename = "policy_assignments/assignments.json"
+}
+
+data "azurerm_client_config" "current" {}
