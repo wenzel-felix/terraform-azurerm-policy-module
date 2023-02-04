@@ -13,7 +13,6 @@ module "policy" {
   custom_policies           = var.custom_policies
   policy_config_path        = var.policy_config_path
   policy_sets               = var.policy_sets
-  builtIn_policies          = var.builtIn_policies
   default_identity_location = var.default_identity_location
 }
 
