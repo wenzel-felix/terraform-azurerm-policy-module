@@ -9,7 +9,7 @@ module "policy" {
     azurerm_storage_account.example1,
     azurerm_storage_account.example2
   ]
-  source                    = "../"
+  source                    = "../.."
   policy_definitions_path   = var.policy_definitions_path
   default_identity_location = var.default_identity_location
 }

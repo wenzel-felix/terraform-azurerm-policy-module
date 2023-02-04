@@ -1,0 +1,92 @@
+[
+    {
+        "policyDisplayName": "Allowed locations 2",
+        "scope": "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example2",
+        "non_compliance_message": "non_compliance_message",
+        "identity": {
+            "use": true,
+            "location": ""
+        },
+        "parameters": {
+            "listOfAllowedLocations": {
+                "value": [
+                    "eastus"
+                ]
+            }
+        },
+        "metadata": {
+            "category": "General"
+        },
+        "exemptions": [
+            {
+                "scope": "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example2/providers/Microsoft.Storage/storageAccounts/gdivj4jais",
+                "exemption_category": "Waiver",
+                "metadata": {
+                    "category": "General"
+                }
+            }
+        ]
+    },
+    {
+        "policyDisplayName": "Allowed locations 2",
+        "scope": "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example1",
+        "identity": {
+            "use": false,
+            "location": ""
+        },
+        "parameters": {
+            "listOfAllowedLocations": {
+                "value": [
+                    "eastus"
+                ]
+            }
+        },
+        "non_compliance_message": "non_compliance_message",
+        "metadata": {
+            "category": "General"
+        },
+        "exemptions": []
+    },
+    {
+        "policyDisplayName": "Allowed locations 2",
+        "scope": "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example1/providers/Microsoft.Storage/storageAccounts/40p2bnrha1",
+        "identity": {
+            "use": false,
+            "location": ""
+        },
+        "parameters": {
+            "listOfAllowedLocations": {
+                "value": [
+                    "eastus"
+                ]
+            }
+        },
+        "non_compliance_message": "non_compliance_message",
+        "metadata": {
+            "category": "General"
+        },
+        "exemptions": []
+    },
+    {
+        "policyDisplayName": "Audit VMs that do not use managed disks",
+        "scope": "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example2",
+        "identity": {
+            "use": false,
+            "location": ""
+        },
+        "parameters": {},
+        "non_compliance_message": "non_compliance_message",
+        "metadata": {
+            "category": "General"
+        },
+        "exemptions": [
+            {
+                "scope": "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example2/providers/Microsoft.Storage/storageAccounts/gdivj4jais",
+                "exemption_category": "Waiver",
+                "metadata": {
+                    "category": "General"
+                }
+            }
+        ]
+    }
+]
