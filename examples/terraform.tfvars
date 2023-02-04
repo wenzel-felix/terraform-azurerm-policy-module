@@ -70,7 +70,7 @@ policy_sets = {
   "acceptance test policy set definition" : {
     metadata = { category = "General" }
     policy_definition_references = [
-      "acceptance test policy definition"
+      "helicopter187"
       ]
     assignments = [
       {
