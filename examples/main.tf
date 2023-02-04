@@ -28,18 +28,37 @@ resource "azurerm_resource_group" "example2" {
   location = local.location
 }
 
+resource "random_string" "example1" {
+  length  = 10
+  special = false
+  upper   = false
+}
+
 resource "azurerm_storage_account" "example1" {
-  name                     = "geantnamelllawdadad1"
+  name                     = random_string.example1.result
   resource_group_name      = azurerm_resource_group.example1.name
   location                 = azurerm_resource_group.example1.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
 
+resource "random_string" "example2" {
+  length  = 10
+  upper   = false
+  special = false
+}
+
 resource "azurerm_storage_account" "example2" {
-  name                     = "geantnamelllawdadad2"
+  name                     = random_string.example2.result
   resource_group_name      = azurerm_resource_group.example2.name
   location                 = azurerm_resource_group.example2.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
+
+resource "local_file" "assignment" {
+  content  = local.assignment_file_content
+  filename = "policy_assignments/assignments.json"
+}
+
+data "azurerm_client_config" "current" {}

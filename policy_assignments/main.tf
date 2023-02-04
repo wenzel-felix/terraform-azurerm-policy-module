@@ -10,44 +10,44 @@ locals {
   policy_assignments_list = flatten(concat([for policy_assignment_file, _ in local.policy_assignment_files : jsondecode(file("${var.policy_assignments_path}${policy_assignment_file}"))]))
   policy_assignments_map = {
     for policy_assignment in local.policy_assignments_list :
-    "${policy_assignment.policyDisplayName}-${policy_assignment.scope}" => merge(policy_assignment, {"uuid": random_uuid.main["${policy_assignment.policyDisplayName}-${policy_assignment.scope}"].result})
+    "${policy_assignment.policyDisplayName}-${policy_assignment.scope}" => merge(policy_assignment, { "uuid" : random_uuid.main["${policy_assignment.policyDisplayName}-${policy_assignment.scope}"].result })
   }
   unique_policies_list = distinct([
     for policy_assignment in local.policy_assignments_list :
     "${policy_assignment.policyDisplayName}"
   ])
   assignment_exemptions_list = toset(flatten([for assignment in local.policy_assignments_list :
-      lookup(assignment, "exemptions", false) != false ?
-      [
-        for exemption in assignment.exemptions : {
-          assignment_scope         = assignment.scope
-          assignment_unique_scope = element(split("/", assignment.scope), length(split("/", assignment.scope)) - 1)
-          scope                   = exemption.scope
-          unique_scope            = element(split("/", exemption.scope), length(split("/", exemption.scope)) - 1)
-          policy_display_name                  = assignment.policyDisplayName
-          policy_acronym          = join("", regexall("[A-Z]+", title(assignment.policyDisplayName)))
-          exemption_category      = exemption.exemption_category
-          metadata                = jsonencode(exemption.metadata)
-        }
-      ] : []]))
+    lookup(assignment, "exemptions", false) != false ?
+    [
+      for exemption in assignment.exemptions : {
+        assignment_scope        = assignment.scope
+        assignment_unique_scope = element(split("/", assignment.scope), length(split("/", assignment.scope)) - 1)
+        scope                   = exemption.scope
+        unique_scope            = element(split("/", exemption.scope), length(split("/", exemption.scope)) - 1)
+        policy_display_name     = assignment.policyDisplayName
+        policy_acronym          = join("", regexall("[A-Z]+", title(assignment.policyDisplayName)))
+        exemption_category      = exemption.exemption_category
+        metadata                = jsonencode(exemption.metadata)
+      }
+  ] : []]))
 }
 
 ############ Policy Assignments ############
 
 data "azurerm_policy_definition" "name" {
-  for_each = toset(local.unique_policies_list)
+  for_each     = toset(local.unique_policies_list)
   display_name = each.key
 }
 
 resource "azurerm_management_group_policy_assignment" "name" {
   for_each = {
-    for key, assignment in local.policy_assignments_map : key => assignment if lower(split("/", assignment.scope)[length(split("/", assignment.scope))-2]) == "managementgroups"
+    for key, assignment in local.policy_assignments_map : key => assignment if lower(split("/", assignment.scope)[length(split("/", assignment.scope)) - 2]) == "managementgroups"
   }
   name                 = each.value.uuid
   policy_definition_id = data.azurerm_policy_definition.name[each.value.policyDisplayName].id
   management_group_id  = each.value.scope
-  metadata             = each.value.metadata != null ? jsonencode(each.value.metadata) : null
-  parameters           = each.value.parameters != null ? jsonencode(each.value.parameters) : null
+  metadata             = jsonencode(each.value.metadata) != "{}" ? jsonencode(each.value.metadata) : null
+  parameters           = jsonencode(each.value.parameters) != "{}" ? jsonencode(each.value.parameters) : null
   non_compliance_message {
     content = each.value.non_compliance_message
   }
@@ -63,13 +63,13 @@ resource "azurerm_management_group_policy_assignment" "name" {
 
 resource "azurerm_subscription_policy_assignment" "name" {
   for_each = {
-    for key, assignment in local.policy_assignments_map : key => assignment if lower(split("/", assignment.scope)[length(split("/", assignment.scope))-2]) == "subscriptions"
+    for key, assignment in local.policy_assignments_map : key => assignment if lower(split("/", assignment.scope)[length(split("/", assignment.scope)) - 2]) == "subscriptions"
   }
   name                 = each.value.uuid
   policy_definition_id = data.azurerm_policy_definition.name[each.value.policyDisplayName].id
   subscription_id      = each.value.scope
-  metadata             = each.value.metadata != null ? jsonencode(each.value.metadata) : null
-  parameters           = each.value.parameters != null ? jsonencode(each.value.parameters) : null
+  metadata             = jsonencode(each.value.metadata) != "{}" ? jsonencode(each.value.metadata) : null
+  parameters           = jsonencode(each.value.parameters) != "{}" ? jsonencode(each.value.parameters) : null
   non_compliance_message {
     content = each.value.non_compliance_message
   }
@@ -85,13 +85,13 @@ resource "azurerm_subscription_policy_assignment" "name" {
 
 resource "azurerm_resource_group_policy_assignment" "name" {
   for_each = {
-    for key, assignment in local.policy_assignments_map : key => assignment if lower(split("/", assignment.scope)[length(split("/", assignment.scope))-2]) == "resourcegroups"
+    for key, assignment in local.policy_assignments_map : key => assignment if lower(split("/", assignment.scope)[length(split("/", assignment.scope)) - 2]) == "resourcegroups"
   }
   name                 = each.value.uuid
   policy_definition_id = data.azurerm_policy_definition.name[each.value.policyDisplayName].id
   resource_group_id    = each.value.scope
-  metadata             = each.value.metadata != null ? jsonencode(each.value.metadata) : null
-  parameters           = each.value.parameters != null ? jsonencode(each.value.parameters) : null
+  metadata             = jsonencode(each.value.metadata) != "{}" ? jsonencode(each.value.metadata) : null
+  parameters           = jsonencode(each.value.parameters) != "{}" ? jsonencode(each.value.parameters) : null
   non_compliance_message {
     content = each.value.non_compliance_message
   }
@@ -107,13 +107,13 @@ resource "azurerm_resource_group_policy_assignment" "name" {
 
 resource "azurerm_resource_policy_assignment" "name" {
   for_each = {
-    for key, assignment in local.policy_assignments_map : key => assignment if !contains(["resourcegroups", "subscriptions", "managementgroups"], lower(split("/", assignment.scope)[length(split("/", assignment.scope))-2]))
+    for key, assignment in local.policy_assignments_map : key => assignment if !contains(["resourcegroups", "subscriptions", "managementgroups"], lower(split("/", assignment.scope)[length(split("/", assignment.scope)) - 2]))
   }
   name                 = each.value.uuid
   policy_definition_id = data.azurerm_policy_definition.name[each.value.policyDisplayName].id
   resource_id          = each.value.scope
-  metadata             = each.value.metadata != null ? jsonencode(each.value.metadata) : null
-  parameters           = each.value.parameters != null ? jsonencode(each.value.parameters) : null
+  metadata             = jsonencode(each.value.metadata) != "{}" ? jsonencode(each.value.metadata) : null
+  parameters           = jsonencode(each.value.parameters) != "{}" ? jsonencode(each.value.parameters) : null
   non_compliance_message {
     content = each.value.non_compliance_message
   }
@@ -131,7 +131,7 @@ resource "azurerm_resource_policy_assignment" "name" {
 
 resource "azurerm_resource_policy_exemption" "RG_assignment" {
   for_each = {
-    for unique in local.assignment_exemptions_list : "${unique.exemption_category}-${unique.policy_acronym}-${unique.unique_scope}" => unique if !contains(["resourcegroups", "subscriptions", "managementgroups"], lower(split("/", unique.scope)[length(split("/", unique.scope))-2])) && lower(split("/", unique.assignment_scope)[length(split("/", unique.assignment_scope))-2]) == "resourcegroups"
+    for unique in local.assignment_exemptions_list : "${unique.exemption_category}-${unique.policy_acronym}-${unique.unique_scope}" => unique if !contains(["resourcegroups", "subscriptions", "managementgroups"], lower(split("/", unique.scope)[length(split("/", unique.scope)) - 2])) && lower(split("/", unique.assignment_scope)[length(split("/", unique.assignment_scope)) - 2]) == "resourcegroups"
   }
   name                 = each.key
   resource_id          = each.value.scope
@@ -142,7 +142,7 @@ resource "azurerm_resource_policy_exemption" "RG_assignment" {
 
 resource "azurerm_resource_policy_exemption" "SUB_assignment" {
   for_each = {
-    for unique in local.assignment_exemptions_list : "${unique.exemption_category}-${unique.policy_acronym}-${unique.unique_scope}" => unique if !contains(["resourcegroups", "subscriptions", "managementgroups"], lower(split("/", unique.scope)[length(split("/", unique.scope))-2])) && lower(split("/", unique.assignment_scope)[length(split("/", unique.assignment_scope))-2]) == "subscriptions"
+    for unique in local.assignment_exemptions_list : "${unique.exemption_category}-${unique.policy_acronym}-${unique.unique_scope}" => unique if !contains(["resourcegroups", "subscriptions", "managementgroups"], lower(split("/", unique.scope)[length(split("/", unique.scope)) - 2])) && lower(split("/", unique.assignment_scope)[length(split("/", unique.assignment_scope)) - 2]) == "subscriptions"
   }
   name                 = each.key
   resource_id          = each.value.scope
@@ -153,7 +153,7 @@ resource "azurerm_resource_policy_exemption" "SUB_assignment" {
 
 resource "azurerm_resource_policy_exemption" "MG_assignment" {
   for_each = {
-    for unique in local.assignment_exemptions_list : "${unique.exemption_category}-${unique.policy_acronym}-${unique.unique_scope}" => unique if !contains(["resourcegroups", "subscriptions", "managementgroups"], lower(split("/", unique.scope)[length(split("/", unique.scope))-2])) && lower(split("/", unique.assignment_scope)[length(split("/", unique.assignment_scope))-2]) == "managementgroups"
+    for unique in local.assignment_exemptions_list : "${unique.exemption_category}-${unique.policy_acronym}-${unique.unique_scope}" => unique if !contains(["resourcegroups", "subscriptions", "managementgroups"], lower(split("/", unique.scope)[length(split("/", unique.scope)) - 2])) && lower(split("/", unique.assignment_scope)[length(split("/", unique.assignment_scope)) - 2]) == "managementgroups"
   }
   name                 = each.key
   resource_id          = each.value.scope
@@ -164,7 +164,7 @@ resource "azurerm_resource_policy_exemption" "MG_assignment" {
 
 resource "azurerm_resource_group_policy_exemption" "SUB_assignment" {
   for_each = {
-    for unique in local.assignment_exemptions_list : "${unique.exemption_category}-${unique.policy_acronym}-${unique.unique_scope}" => unique if lower(split("/", unique.scope)[length(split("/", unique.scope))-2]) == "resourcegroups" && lower(split("/", unique.assignment_scope)[length(split("/", unique.assignment_scope))-2]) == "subscriptions"
+    for unique in local.assignment_exemptions_list : "${unique.exemption_category}-${unique.policy_acronym}-${unique.unique_scope}" => unique if lower(split("/", unique.scope)[length(split("/", unique.scope)) - 2]) == "resourcegroups" && lower(split("/", unique.assignment_scope)[length(split("/", unique.assignment_scope)) - 2]) == "subscriptions"
   }
   name                 = each.key
   resource_group_id    = each.value.scope
@@ -175,7 +175,7 @@ resource "azurerm_resource_group_policy_exemption" "SUB_assignment" {
 
 resource "azurerm_resource_group_policy_exemption" "MG_assignment" {
   for_each = {
-    for unique in local.assignment_exemptions_list : "${unique.exemption_category}-${unique.policy_acronym}-${unique.unique_scope}" => unique if lower(split("/", unique.scope)[length(split("/", unique.scope))-2]) == "resourcegroups" && lower(split("/", unique.assignment_scope)[length(split("/", unique.assignment_scope))-2]) == "managementgroups"
+    for unique in local.assignment_exemptions_list : "${unique.exemption_category}-${unique.policy_acronym}-${unique.unique_scope}" => unique if lower(split("/", unique.scope)[length(split("/", unique.scope)) - 2]) == "resourcegroups" && lower(split("/", unique.assignment_scope)[length(split("/", unique.assignment_scope)) - 2]) == "managementgroups"
   }
   name                 = each.key
   resource_group_id    = each.value.scope
@@ -186,7 +186,7 @@ resource "azurerm_resource_group_policy_exemption" "MG_assignment" {
 
 resource "azurerm_subscription_policy_exemption" "MG_assignment" {
   for_each = {
-    for unique in local.assignment_exemptions_list : "${unique.exemption_category}-${unique.policy_acronym}-${unique.unique_scope}" => unique if lower(split("/", unique.scope)[length(split("/", unique.scope))-2]) == "subscriptions" && lower(split("/", unique.assignment_scope)[length(split("/", unique.assignment_scope))-2]) == "managementgroups"
+    for unique in local.assignment_exemptions_list : "${unique.exemption_category}-${unique.policy_acronym}-${unique.unique_scope}" => unique if lower(split("/", unique.scope)[length(split("/", unique.scope)) - 2]) == "subscriptions" && lower(split("/", unique.assignment_scope)[length(split("/", unique.assignment_scope)) - 2]) == "managementgroups"
   }
   name                 = each.key
   subscription_id      = each.value.scope
@@ -197,7 +197,7 @@ resource "azurerm_subscription_policy_exemption" "MG_assignment" {
 
 resource "azurerm_management_group_policy_exemption" "MG_assignment" {
   for_each = {
-    for unique in local.assignment_exemptions_list : "${unique.exemption_category}-${unique.policy_acronym}-${unique.unique_scope}" => unique if lower(split("/", unique.scope)[length(split("/", unique.scope))-2]) == "managementgroups" && lower(split("/", unique.assignment_scope)[length(split("/", unique.assignment_scope))-2]) == "managementgroups"
+    for unique in local.assignment_exemptions_list : "${unique.exemption_category}-${unique.policy_acronym}-${unique.unique_scope}" => unique if lower(split("/", unique.scope)[length(split("/", unique.scope)) - 2]) == "managementgroups" && lower(split("/", unique.assignment_scope)[length(split("/", unique.assignment_scope)) - 2]) == "managementgroups"
   }
   name                 = each.key
   management_group_id  = each.value.scope
