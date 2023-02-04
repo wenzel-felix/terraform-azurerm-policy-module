@@ -1,10 +1,10 @@
 resource "azurerm_policy_definition" "name" {
   for_each     = var.custom_policies
-  name         = each.key
+  name         = jsondecode(file("${var.policy_config_path}${each.key}.json")).name
   policy_type  = "Custom"
-  mode         = lookup(each.value, "policy_type", "All")
-  display_name = each.key
-  metadata     = jsonencode(each.value.metadata)
-  parameters   = file("${var.policy_config_path}${each.key}/parameters.json")
-  policy_rule  = file("${var.policy_config_path}${each.key}/policy_rule.json")
+  mode         = jsondecode(file("${var.policy_config_path}${each.key}.json")).properties.mode
+  display_name = jsondecode(file("${var.policy_config_path}${each.key}.json")).properties.displayName
+  metadata     = jsonencode(jsondecode(file("${var.policy_config_path}${each.key}.json")).properties.metadata)
+  parameters   = jsonencode(jsondecode(file("${var.policy_config_path}${each.key}.json")).properties.parameters)
+  policy_rule  = jsonencode(jsondecode(file("${var.policy_config_path}${each.key}.json")).properties.policyRule)
 }

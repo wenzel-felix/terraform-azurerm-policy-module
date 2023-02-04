@@ -17,14 +17,18 @@ module "policy" {
   default_identity_location = var.default_identity_location
 }
 
+locals {
+  location = "eastus"
+}
+
 resource "azurerm_resource_group" "example1" {
   name     = "example1"
-  location = "West Europe"
+  location = local.location
 }
 
 resource "azurerm_resource_group" "example2" {
   name     = "example2"
-  location = "West Europe"
+  location = local.location
 }
 
 resource "azurerm_storage_account" "example1" {
@@ -33,10 +37,6 @@ resource "azurerm_storage_account" "example1" {
   location                 = azurerm_resource_group.example1.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
-
-  tags = {
-    environment = "staging"
-  }
 }
 
 resource "azurerm_storage_account" "example2" {
@@ -45,8 +45,4 @@ resource "azurerm_storage_account" "example2" {
   location                 = azurerm_resource_group.example2.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
-
-  tags = {
-    environment = "staging"
-  }
 }

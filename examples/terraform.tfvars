@@ -1,24 +1,29 @@
 policy_config_path        = "policies/"
-default_identity_location = "westeurope"
+default_identity_location = "eastus"
 custom_policies = {
   "acceptance test policy definition" : {
-    mode     = "Indexed"
-    metadata = { category = "General" }
     assignments = [
       {
         type                   = "RG"
-        scope                  = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2"
+        scope                  = "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example2"
         non_compliance_message = "non_compliance_message"
         identity = {
           use      = true
           location = ""
         }
-        parameters = {}
+        parameters = {
+          "listOfAllowedLocations" = {
+            type  = "Array"
+            value = [
+              "eastus"
+            ]
+          }
+        }
         metadata = { category = "General" }
         exemptions = [
           {
             type               = "RES"
-            scope              = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2/providers/Microsoft.Storage/storageAccounts/geantnamelllawdadad2"
+            scope              = "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example2/providers/Microsoft.Storage/storageAccounts/geantnamelllawdadad2"
             exemption_category = "Waiver"
             metadata           = { category = "General" }
           }
@@ -26,53 +31,55 @@ custom_policies = {
       },
       {
         type  = "RG"
-        scope = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example1"
+        scope = "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example1"
         identity = {
           use      = false
           location = ""
         }
-        parameters = {}
+        parameters = {
+          "listOfAllowedLocations" = {
+            type  = "Array"
+            value = [
+              "eastus"
+            ]
+          }
+        }
         non_compliance_message = "non_compliance_message"
         metadata               = { category = "General" }
         exemptions             = []
       },
       {
         type  = "RES"
-        scope = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example1/providers/Microsoft.Storage/storageAccounts/geantnamelllawdadad1"
+        scope = "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example1/providers/Microsoft.Storage/storageAccounts/geantnamelllawdadad1"
         identity = {
           use      = false
           location = ""
         }
-        parameters = {}
+        parameters = {
+          "listOfAllowedLocations" = {
+            type  = "Array"
+            value = [
+              "eastus"
+            ]
+          }
+        }
         non_compliance_message = "non_compliance_message"
         metadata               = { category = "General" }
         exemptions             = []
       }
     ]
-  },
-  "acceptance test policy definition2" : {
-    mode        = "All"
-    metadata    = { category = "General" }
-    assignments = []
-  },
-  "acceptance test policy definition3" : {
-    mode        = "All"
-    metadata    = { category = "General" }
-    assignments = []
   }
 }
 policy_sets = {
-  "acceptance test policy set definition for 2 and 3" : {
+  "acceptance test policy set definition" : {
     metadata = { category = "General" }
     policy_definition_references = [
-      "acceptance test policy definition2",
-      "acceptance test policy definition3",
-      "Audit VMs that do not use managed disks"
-    ]
+      "acceptance test policy definition"
+      ]
     assignments = [
       {
         type  = "RG"
-        scope = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2"
+        scope = "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example2"
         identity = {
           use      = false
           location = ""
@@ -83,7 +90,7 @@ policy_sets = {
         exemptions = [
           {
             type               = "RES"
-            scope              = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2/providers/Microsoft.Storage/storageAccounts/geantnamelllawdadad2"
+            scope              = "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example2/providers/Microsoft.Storage/storageAccounts/geantnamelllawdadad2"
             exemption_category = "Waiver"
             metadata           = { category = "General" }
           }
@@ -97,7 +104,7 @@ builtIn_policies = {
     assignments = [
       {
         type  = "RG"
-        scope = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2"
+        scope = "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example2"
         identity = {
           use      = false
           location = ""
@@ -108,7 +115,7 @@ builtIn_policies = {
         exemptions = [
           {
             type               = "RES"
-            scope              = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example2/providers/Microsoft.Storage/storageAccounts/geantnamelllawdadad2"
+            scope              = "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example2/providers/Microsoft.Storage/storageAccounts/geantnamelllawdadad2"
             exemption_category = "Waiver"
             metadata           = { category = "General" }
           }
@@ -120,7 +127,7 @@ builtIn_policies = {
     assignments = [
       {
         type  = "RG"
-        scope = "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/example1"
+        scope = "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example1"
         identity = {
           use      = false
           location = ""

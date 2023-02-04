@@ -9,6 +9,11 @@ resource "azurerm_policy_set_definition" "name" {
     for_each = each.value.policy_definition_references
     content {
       policy_definition_id = var.policy_definitions[policy_definition_reference.value].id
+      parameter_values     = <<VALUE
+      {
+        "listOfAllowedLocations": {"value": ["eastus"]}
+      }
+      VALUE
     }
   }
 }

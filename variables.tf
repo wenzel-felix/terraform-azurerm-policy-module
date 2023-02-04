@@ -7,8 +7,6 @@ variable "custom_policies" {
   description = "The configuration for the policies to be installed."
   type = map(object(
     {
-      mode     = string
-      metadata = map(any)
       assignments = list(object({
         type                   = string
         scope                  = string
