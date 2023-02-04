@@ -6,6 +6,7 @@ The module supports a file based approach compatible with the default azure poli
 Type of resources are supported:
 
 * [Policy Definition](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/policy_definition)
+* [Policy Set Definition](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/policy_set_definition)
 * [Management Group Policy Assignment](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/management_group_policy_assignment)
 * [Subscription Policy Assignment](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subscription_policy_assignment)
 * [Resource Group Policy Assignment](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group_policy_assignment)
@@ -29,6 +30,7 @@ Type of resources are supported:
 └── policy_assignments/
     └── policy_assignment1.json
 ```
+
 
 For more information on the structure of the role assignment and policy definition files follow these references:
 [assignment example](examples/simple-example/policy_assignments/assignment.json.example)
