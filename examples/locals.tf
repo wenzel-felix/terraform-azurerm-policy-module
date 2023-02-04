@@ -1,7 +1,9 @@
+locals {
+  assignment_file_content = <<EOF
     [
         {
             "policyDisplayName": "Allowed locations 2",
-            "scope": "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example2",
+            "scope": "${azurerm_resource_group.example2.id}",
             "non_compliance_message": "non_compliance_message",
             "identity": {
                 "use": true,
@@ -19,7 +21,7 @@
             },
             "exemptions": [
                 {
-                    "scope": "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example2/providers/Microsoft.Storage/storageAccounts/x5h8jq8s7z",
+                    "scope": "${azurerm_storage_account.example2.id}",
                     "exemption_category": "Waiver",
                     "metadata": {
                         "category": "General"
@@ -29,7 +31,7 @@
         },
         {
             "policyDisplayName": "Allowed locations 2",
-            "scope": "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example1",
+            "scope": "${azurerm_resource_group.example1.id}",
             "identity": {
                 "use": false,
                 "location": ""
@@ -49,7 +51,7 @@
         },
         {
             "policyDisplayName": "Allowed locations 2",
-            "scope": "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example1/providers/Microsoft.Storage/storageAccounts/cc7vra8ewm",
+            "scope": "${azurerm_storage_account.example1.id}",
             "identity": {
                 "use": false,
                 "location": ""
@@ -69,7 +71,7 @@
         },
         {
             "policyDisplayName": "Audit VMs that do not use managed disks",
-            "scope": "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example2",
+            "scope": "${azurerm_resource_group.example2.id}",
             "identity": {
                 "use": false,
                 "location": ""
@@ -81,7 +83,7 @@
             },
             "exemptions": [
                 {
-                    "scope": "/subscriptions/a74686c1-f74f-4671-9963-e3316c48afdd/resourceGroups/example2/providers/Microsoft.Storage/storageAccounts/x5h8jq8s7z",
+                    "scope": "${azurerm_storage_account.example2.id}",
                     "exemption_category": "Waiver",
                     "metadata": {
                         "category": "General"
@@ -90,3 +92,5 @@
             ]
         }
     ]
+  EOF
+}

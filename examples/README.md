@@ -1,0 +1,2 @@
+> **_NOTE:_**  
+You need to run the terraform apply command twice. The first one will create a example role assignment file dependent on your user and the second one will perform the module operation.
