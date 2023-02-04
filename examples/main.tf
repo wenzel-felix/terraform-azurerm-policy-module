@@ -10,9 +10,7 @@ module "policy" {
     azurerm_storage_account.example2
   ]
   source                    = "../"
-  custom_policies           = var.custom_policies
-  policy_config_path        = var.policy_config_path
-  policy_sets               = var.policy_sets
+  policy_definitions_path   = var.policy_definitions_path
   default_identity_location = var.default_identity_location
 }
 

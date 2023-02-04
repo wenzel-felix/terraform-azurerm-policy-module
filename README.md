@@ -14,20 +14,7 @@ Type of resources are supported:
 * [Resource Group Policy Exemption](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group_policy_exemption)
 * [Resource Policy Exemption](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_policy_exemption)
 
-## Module Usage
 
-```hcl
-# Azurerm provider configuration
-provider "azurerm" {
-  features {}
-}
-
-module "policy" {
-  source  = "felix-wenzel/policy-module/azurerm"
-  version = "0.1"
-  policy_config_path = "policies/"  # policy_config_path is set to "policies/" by default
-  policies = var.policies
-}
 ```
 
 >__Important__ :
@@ -52,7 +39,7 @@ If you want to run the test, you have to first add your subscription id in the "
 
 Name | Description | Type | Default
 ---- | ----------- | ---- | -------
-`policy_config_path` | The path where the policy folders are located | string | `"policies/"`
+`policy_definitions_path` | The path where the policy folders are located | string | `"policies/"`
 `policies` | The policies map includes individual policies to be implemented | map | `{}`
 
 ## Structure of the individual __policies__
